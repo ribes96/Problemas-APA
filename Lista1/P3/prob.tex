@@ -107,20 +107,24 @@ N\sigma^2 = \sum_{n = 1}^{N} (x_j - \mu)^2
 \end{equation*}
 
 \begin{equation*}
-N\sigma^2 = \sum_{n = 1}^{N} (x_j^2 -2\mu x_j + \mu^2)
+\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} (x_j - \mu)^2
 \end{equation*}
 
-\begin{equation*}
-N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -\sum_{n = 1}^{N} 2\mu x_j + \sum_{n = 1}^{N} \mu^2
-\end{equation*}
-
-\begin{equation*}
-N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -N2\mu\sum_{n = 1}^{N} x_j + N\mu^2
-\end{equation*}
-
-\begin{equation*}
-\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
-\end{equation*}
+% \begin{equation*}
+% N\sigma^2 = \sum_{n = 1}^{N} (x_j^2 -2\mu x_j + \mu^2)
+% \end{equation*}
+% 
+% \begin{equation*}
+% N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -\sum_{n = 1}^{N} 2\mu x_j + \sum_{n = 1}^{N} \mu^2
+% \end{equation*}
+% 
+% \begin{equation*}
+% N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -N2\mu\sum_{n = 1}^{N} x_j + N\mu^2
+% \end{equation*}
+% 
+% \begin{equation*}
+% \sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
+% \end{equation*}
 
 % \begin{equation*}
 % \frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{\sigma^2}{2\sigma^4} - \frac{(x_j - \mu)^2}{2\sigma^4} \Big]
@@ -174,33 +178,80 @@ lh = \sum_{n = 1}^{N} \Big[ \ln{\big(  \sigma\sqrt{2\pi} \big)} + \frac{(x_j - \
 \end{equation*}
 
 \begin{equation*}
-\frac{\partial lh}{\partial \mu} = \frac{N\mu}{\sigma^2} - \sum_{n = 1}^{N} x_j
+\frac{\partial lh}{\partial \mu} = \frac{N\mu}{\sigma^2} - \frac{1}{\sigma^2}\sum_{n = 1}^{N} x_j
 \end{equation*}
 
 Entonces para que $\frac{\partial lh}{\partial \mu} = 0$ se tiene que cumplir que
 
 \begin{equation*}
-\frac{N\mu}{\sigma^2} = \sum_{n = 1}^{N} x_j
+\frac{N\mu}{\sigma^2} = \frac{1}{\sigma^2}\sum_{n = 1}^{N} x_j
 \end{equation*}
 
 \begin{equation*}
-\mu = \frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j
+\frac{N\mu\sigma^2}{\sigma^2} = \sum_{n = 1}^{N} x_j
 \end{equation*}
+
+\begin{equation*}
+N\mu = \sum_{n = 1}^{N} x_j
+\end{equation*}
+
+\begin{equation*}
+\mu = \frac{1}{N}\sum_{n = 1}^{N} x_j
+\end{equation*}
+% ------------
+
 
 Para tener un extremo deberían cumplirse estas condiciones:
 \begin{equation*}
-\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
+\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} (x_j - \mu)^2
 \end{equation*}
 \begin{equation*}
-\mu = \frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j
+\mu = \frac{1}{N}\sum_{n = 1}^{N} x_j
 \end{equation*}
 
-Haciendo igualación:
-\begin{equation*}
-\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\Big[\frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j\Big]\sum_{n = 1}^{N} x_j + \Big[\frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j\Big]^2
-\end{equation*}
+Que son las fórmulas clásicas para medir la media muestral y la varianza.
 
 \section{Demostreu que realment són mínims (i no extrems qualsevol)}
+
+Para demostrar que realmente son mínimos y no máximos hay que fijarse en la segunda derivada. Como se ha explicado anteriormente, se tratará de mínimos si la imagen de las dos segundas derivadas en esos puntos es positiva, y se tratará de máximos si son negativas.
+
+Las derivadas son:
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ \ln{\big( f(x_n | \mu, \sigma^2)\big)} \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \sigma^2} = \frac{N}{2\sigma^2} - \frac{1}{2\sigma^4}\sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial^2 lh}{\partial \sigma^4} = \Big[ \frac{N}{2}(-\frac{1}{\sigma^4})\Big] - \Big[\frac{1}{2}\sum_{n = 1}^{N} (x_j - \mu)^2(-\frac{2}{\sigma^6}) \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial^2 lh}{\partial \sigma^4} =  -\frac{N}{2\sigma^4} + \frac{1}{\sigma^6}\sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+Evaluamos en qué casos es mayor que $0$:
+
+\begin{equation*}
+-\frac{N}{2\sigma^4} + \frac{1}{\sigma^6}\sum_{n = 1}^{N} (x_j - \mu)^2 > 0
+\end{equation*}
+
+\begin{equation*}
+\frac{1}{\sigma^6}\sum_{n = 1}^{N} (x_j - \mu)^2 > \frac{N}{2\sigma^4}
+\end{equation*}
+
+Puesto que $\sigma^6$ y $N$ son positivos podemos hacer:
+
+\begin{equation*}
+\frac{1}{N}\sum_{n = 1}^{N} (x_j - \mu)^2 > \frac{\sigma^6}{\sigma^4}
+\end{equation*}
+
+\begin{equation*}
+\frac{2}{N}\sum_{n = 1}^{N} (x_j - \mu)^2 > \sigma^2
+\end{equation*}
 
 \section{Calculeu els biaixos dels dos estimadors. Determineu si l'estimador per $\mu$ és consistent}
 
