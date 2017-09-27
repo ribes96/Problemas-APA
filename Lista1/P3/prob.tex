@@ -1,0 +1,239 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[shortlabels]{enumitem}
+
+%% Una forma de hacerlo
+% \usepackage{titlesec}
+% \titleformat*{\section}{\small\bfseries}
+%%%%%%%%%%%%%%%%
+
+
+%% Otra forma de hacerlo
+\usepackage{sectsty}
+\sectionfont{\small}
+%%%%%%%%
+
+%opening
+\title{Problema 3: Màxima Versemblança 1}
+\author{
+Albert Ribes
+\and
+Gerard Barrachina
+\and
+Josep ...
+\and
+Cristine ...
+}
+
+\begin{document}
+
+\maketitle
+
+% \begin{abstract}
+% 
+% \end{abstract}
+
+% \section{}
+
+Considerem un experiment aleatori en què mesurem una determinada variable aleatòria $X$,
+que segueix
+una distribució gaussiana univariada, cosa que escrivim $X \sim N(\mu, \sigma^2)$. Prenem $N$
+mesures independents de $X$ i obtenim una mostra aleatòria simple $\{x_1, \dots, x_N\}$,
+on cada $x_n$ es una realització de $X$, per $n = 1,\dots,N$. Es demana:
+
+\section{Escriviu la funció de densitat de probabilitat per un $x_n$ qualsevol i construïu la funció log-versemblança (negativa) de la mostra.}
+
+\begin{equation*}
+f(x_j | \mu, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x_j - \mu)^2}{2\sigma^2}}
+\end{equation*}
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ \ln{\big( f(x_n | \mu, \sigma^2)\big)} \Big]
+\end{equation*}
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ \ln{\Big(  \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x_j - \mu)^2}{2\sigma^2}} \Big)} \Big]
+\end{equation*}
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ \ln{\Big(  \frac{1}{\sigma\sqrt{2\pi}}\Big)} + \ln{\Big(e^{-\frac{(x_j - \mu)^2}{2\sigma^2}} \Big)} \Big]
+\end{equation*}
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ -\ln{\big(  \sigma\sqrt{2\pi} \big)} - \frac{(x_j - \mu)^2}{2\sigma^2} \Big]
+\end{equation*}
+
+\begin{equation*}
+lh = \sum_{n = 1}^{N} \Big[ \ln{\big(  \sigma\sqrt{2\pi} \big)} + \frac{(x_j - \mu)^2}{2\sigma^2} \Big]
+\end{equation*}
+
+\section{Trobeu els estimadors de màxima versemblança $\hat{\mu}$ i $\hat{\sigma^2}$ per $\mu$ i per $\sigma^2$, a partir de la mostra}
+
+Debemos encontrar los valores de $\sigma^2$ y $\mu$ que hacen que $lh$ sea mínimo (puesto que hemos cambiado el signo a la función de densidad). Para ello su derivada debe ser $0$ y su segunda derivada en ese punto debe dar un resultado positivo.
+
+La derivada de la función de máxima verosimilitud (likelihood) respecto de $\sigma^2$ es:
+
+\begin{equation*}
+lh = \sum_{n = 1}^{N} \Big[ \ln{\big(  \sigma\sqrt{2\pi} \big)} + \frac{(x_j - \mu)^2}{2\sigma^2} \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \Big( \frac{1}{\sigma\sqrt{2\pi}} \cdot \frac{\sqrt{2\pi}}{2\sigma} \Big) + \Big( \frac{(x_j - \mu)^2}{2} \big( -\frac{1}{\sigma^4}\big)\Big)\Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{1}{2\sigma^2} - \frac{(x_j - \mu)^2}{2\sigma^4} \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \sigma^2} = \frac{N}{2\sigma^2} - \frac{1}{2\sigma^4}\sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+Entonces para que $\frac{\partial lh}{\partial \sigma^2} = 0 $ se tiene que cumplir que:
+
+\begin{equation*}
+\frac{N}{2\sigma^2} = \frac{1}{2\sigma^4}\sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+\begin{equation*}
+\frac{N2\sigma^4}{2\sigma^2} = \sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+\begin{equation*}
+N\sigma^2 = \sum_{n = 1}^{N} (x_j - \mu)^2
+\end{equation*}
+
+\begin{equation*}
+N\sigma^2 = \sum_{n = 1}^{N} (x_j^2 -2\mu x_j + \mu^2)
+\end{equation*}
+
+\begin{equation*}
+N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -\sum_{n = 1}^{N} 2\mu x_j + \sum_{n = 1}^{N} \mu^2
+\end{equation*}
+
+\begin{equation*}
+N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -N2\mu\sum_{n = 1}^{N} x_j + N\mu^2
+\end{equation*}
+
+\begin{equation*}
+\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
+\end{equation*}
+
+% \begin{equation*}
+% \frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{\sigma^2}{2\sigma^4} - \frac{(x_j - \mu)^2}{2\sigma^4} \Big]
+% \end{equation*}
+% 
+% \begin{equation*}
+% \frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{\sigma^2 - (x_j - \mu)^2}{2\sigma^4} \Big]
+% \end{equation*}
+% 
+% \begin{equation*}
+% \frac{\partial lh}{\partial \sigma^2} = \frac{1}{2\sigma^4}\sum_{n = 1}^{N} \Big[ \sigma^2 - (x_j - \mu)^2 \Big]
+% \end{equation*}
+% 
+% \begin{equation*}
+% \frac{\partial lh}{\partial \sigma^2} = \frac{N\sigma^2}{2\sigma^4}\sum_{n = 1}^{N} \Big[ - (x_j - \mu)^2 \Big]
+% \end{equation*}
+
+% Para que $\frac{\partial lh}{\partial \sigma^2} = 0$, cada elemento del sumatorio tiene que ser $0$, i.e:
+% \begin{equation*}
+% \forall j \in \{1,\dots,N\},  \sigma^2 = (x_j - \mu)^2
+% \end{equation*}
+
+% \begin{equation*}
+% \sigma = 
+% \begin{cases}
+% x_j - \mu & \text{ si } x_j \geq \mu \\
+% \mu - x_j & \text{ si } x_j < \mu \\
+% \end{cases}
+% \end{equation*}
+
+La derivada de la función de máxima verosimilitud (likelihood) respecto de $\mu$ es:
+
+\begin{equation*}
+lh = \sum_{n = 1}^{N} \Big[ \ln{\big(  \sigma\sqrt{2\pi} \big)} + \frac{(x_j - \mu)^2}{2\sigma^2} \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \sum_{n = 1}^{N} \Big[ 0 + \frac{1}{2\sigma^2} \big(2(x_j - \mu)(-1)\big) \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \sum_{n = 1}^{N} \Big[-\frac{2(x_j - \mu)}{2\sigma^2}\Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \frac{1}{\sigma^2}\sum_{n = 1}^{N} \Big[-(x_j - \mu)\Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \frac{1}{\sigma^2}\sum_{n = 1}^{N} (\mu - x_j)
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \frac{N\mu}{\sigma^2} - \sum_{n = 1}^{N} x_j
+\end{equation*}
+
+Entonces para que $\frac{\partial lh}{\partial \mu} = 0$ se tiene que cumplir que
+
+\begin{equation*}
+\frac{N\mu}{\sigma^2} = \sum_{n = 1}^{N} x_j
+\end{equation*}
+
+\begin{equation*}
+\mu = \frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j
+\end{equation*}
+
+Para tener un extremo deberían cumplirse estas condiciones:
+\begin{equation*}
+\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
+\end{equation*}
+\begin{equation*}
+\mu = \frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j
+\end{equation*}
+
+Haciendo igualación:
+\begin{equation*}
+\sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\Big[\frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j\Big]\sum_{n = 1}^{N} x_j + \Big[\frac{\sigma^2}{N}\sum_{n = 1}^{N} x_j\Big]^2
+\end{equation*}
+
+\section{Demostreu que realment són mínims (i no extrems qualsevol)}
+
+\section{Calculeu els biaixos dels dos estimadors. Determineu si l'estimador per $\mu$ és consistent}
+
+\section{Calculeu la variança de l'estimador per $\mu$ de 2 maneres (que han de coincidir), a triar de les 3 següents. Pista: useu que si $X_n,X_m \sim N(\mu,\sigma^2)$, llavors:}
+
+\begin{equation*}
+\mathbb{E} [ X_n \cdot X_m ] = 
+ \begin{cases} 
+      \mu^2 & \text{si } n \neq m \\
+      \mu^2 + \sigma^2 & \text{si } n = m\\
+   \end{cases}
+\end{equation*}
+
+\begin{enumerate}[(a)]
+\item Insertant directament el valor de l'estimador i utilitzant les propietats de la variança;
+\item Usant la coneguda fòrmula $Var[\hat{\theta}] = \mathbb{E}[\hat{\theta}] - (\mathbb{E}[\hat{\theta}])^2$;
+\item Utilitzant la definició directa de la variança $Var[\hat{\theta}] = \mathbb{E}[(\mathbb{E}[\hat{\theta}] - \hat{\theta})^2]$
+\end{enumerate}
+
+\section{Per determinar la velocitat màxima d'un prototip d'avió es van fer 15 proves independents (i
+caríssimes!) amb els resultats
+\\
+422.2, 418.7, 425.6, 420.3, 425.8, 423.1, 431.5, 428.2, 438.3, 434.0, 411.3, 417.2, 413.5, 441.3, 423.0
+\\
+on els valors venen expressats en m/s. Suposant que aquesta velocitat màxima és gaussiana, quins
+valors estimaríeu per $\mu$ i per $\sigma$ ?}
+
+\section{Fixeu unes $\mu$ i $\sigma^2$ al vostre gust i genereu 1000 mostres aleatòries simples Gaussianes de mida $N = 50$ (noteu que no cal emmagatzemar-les); utilitzeu les mostres (que han de ser i.i.d. i
+independents entre si) per estimar els biaixos i variances dels valors teòrics
+$\mu$ i $\sigma^2$. Compareu els
+resultats respecte els valors teòrics dels estimadors.
+}
+
+
+
+\end{document}
