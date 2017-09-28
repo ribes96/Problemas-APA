@@ -5,7 +5,7 @@
 \usepackage{amsfonts}
 \usepackage[shortlabels]{enumitem}
 
-%% Una forma de hacerlo
+%% Una forma de poner títulos más pequeños
 % \usepackage{titlesec}
 % \titleformat*{\section}{\small\bfseries}
 %%%%%%%%%%%%%%%%
@@ -19,13 +19,13 @@
 %opening
 \title{Problema 3: Màxima Versemblança 1}
 \author{
-Albert Ribes
-\and
 Gerard Barrachina
 \and
-Josep ...
+Josep de Cid
 \and
-Cristine ...
+Albert Ribes
+\and
+Kerstin Winter
 }
 
 \begin{document}
@@ -218,7 +218,7 @@ Para demostrar que realmente son mínimos y no máximos hay que fijarse en la se
 Las derivadas son:
 
 \begin{equation*}
-lh = - \sum_{n = 1}^{N} \Big[ \ln{\big( f(x_n | \mu, \sigma^2)\big)} \Big]
+lh = \sum_{n = 1}^{N} \Big[ \ln{\big(  \sigma\sqrt{2\pi} \big)} + \frac{(x_j - \mu)^2}{2\sigma^2} \Big]
 \end{equation*}
 
 \begin{equation*}
@@ -252,6 +252,38 @@ Puesto que $\sigma^6$ y $N$ son positivos podemos hacer:
 \begin{equation*}
 \frac{2}{N}\sum_{n = 1}^{N} (x_j - \mu)^2 > \sigma^2
 \end{equation*}
+
+Y puesto que lo estamos evaluando en ese punto podemos hacer la sustitución:
+
+\begin{equation*}
+2\sigma^2 > \sigma^2
+\end{equation*}
+
+\begin{equation*}
+2 > 1
+\end{equation*}
+
+Da valores positivos en todos los casos, por lo tanto realmente es un mínimo.
+
+En el caso de $\mu$:
+
+\begin{equation*}
+lh = - \sum_{n = 1}^{N} \Big[ \ln{\big( f(x_n | \mu, \sigma^2)\big)} \Big]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial lh}{\partial \mu} = \frac{N\mu}{\sigma^2} - \frac{1}{\sigma^2}\sum_{n = 1}^{N} x_j
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial^2 lh}{\partial \mu^2} = \frac{N}{\sigma^2} + 0
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial^2 lh}{\partial \mu^2} = \frac{N}{\sigma^2}
+\end{equation*}
+
+Puesto que N y $\sigma^2$ son positivos, la derivada segunda también lo es, y por lo tanto se trata de un mínimo.
 
 \section{Calculeu els biaixos dels dos estimadors. Determineu si l'estimador per $\mu$ és consistent}
 
