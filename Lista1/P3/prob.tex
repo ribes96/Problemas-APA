@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage[shortlabels]{enumitem}
+\usepackage{ textcomp }
 
 %% Una forma de poner títulos más pequeños
 % \usepackage{titlesec}
@@ -33,7 +34,7 @@ Kerstin Winter
 \maketitle
 
 % \begin{abstract}
-% 
+%
 % \end{abstract}
 
 % \section{}
@@ -113,15 +114,15 @@ N\sigma^2 = \sum_{n = 1}^{N} (x_j - \mu)^2
 % \begin{equation*}
 % N\sigma^2 = \sum_{n = 1}^{N} (x_j^2 -2\mu x_j + \mu^2)
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -\sum_{n = 1}^{N} 2\mu x_j + \sum_{n = 1}^{N} \mu^2
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % N\sigma^2 = \sum_{n = 1}^{N} x_j^2 -N2\mu\sum_{n = 1}^{N} x_j + N\mu^2
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % \sigma^2 = \frac{1}{N}\sum_{n = 1}^{N} x_j^2 -2\mu\sum_{n = 1}^{N} x_j + \mu^2
 % \end{equation*}
@@ -129,15 +130,15 @@ N\sigma^2 = \sum_{n = 1}^{N} (x_j - \mu)^2
 % \begin{equation*}
 % \frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{\sigma^2}{2\sigma^4} - \frac{(x_j - \mu)^2}{2\sigma^4} \Big]
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % \frac{\partial lh}{\partial \sigma^2} = \sum_{n = 1}^{N} \Big[ \frac{\sigma^2 - (x_j - \mu)^2}{2\sigma^4} \Big]
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % \frac{\partial lh}{\partial \sigma^2} = \frac{1}{2\sigma^4}\sum_{n = 1}^{N} \Big[ \sigma^2 - (x_j - \mu)^2 \Big]
 % \end{equation*}
-% 
+%
 % \begin{equation*}
 % \frac{\partial lh}{\partial \sigma^2} = \frac{N\sigma^2}{2\sigma^4}\sum_{n = 1}^{N} \Big[ - (x_j - \mu)^2 \Big]
 % \end{equation*}
@@ -148,7 +149,7 @@ N\sigma^2 = \sum_{n = 1}^{N} (x_j - \mu)^2
 % \end{equation*}
 
 % \begin{equation*}
-% \sigma = 
+% \sigma =
 % \begin{cases}
 % x_j - \mu & \text{ si } x_j \geq \mu \\
 % \mu - x_j & \text{ si } x_j < \mu \\
@@ -287,11 +288,19 @@ Puesto que N y $\sigma^2$ son positivos, la derivada segunda también lo es, y p
 
 \section{Calculeu els biaixos dels dos estimadors. Determineu si l'estimador per $\mu$ és consistent}
 
+Todavía no lo tengo muy claro, pero por lo que he leído diría que $\tilde{\mu}$ no tiene bias, mientras que el bias de la varianza $\tilde{\sigma^2}$ es
+\begin{equation*}
+\frac{1}{N - 1}\tilde{\sigma^2}
+\end{equation*}
+
+A medida que $N \rightarrow \infty$, el bias se irá haciendo más pequeño. Por lo tanto podemos decir que el estimador para $\mu$  es consistente.
+
+
 \section{Calculeu la variança de l'estimador per $\mu$ de 2 maneres (que han de coincidir), a triar de les 3 següents. Pista: useu que si $X_n,X_m \sim N(\mu,\sigma^2)$, llavors:}
 
 \begin{equation*}
-\mathbb{E} [ X_n \cdot X_m ] = 
- \begin{cases} 
+\mathbb{E} [ X_n \cdot X_m ] =
+ \begin{cases}
       \mu^2 & \text{si } n \neq m \\
       \mu^2 + \sigma^2 & \text{si } n = m\\
    \end{cases}
@@ -316,7 +325,5 @@ independents entre si) per estimar els biaixos i variances dels valors teòrics
 $\mu$ i $\sigma^2$. Compareu els
 resultats respecte els valors teòrics dels estimadors.
 }
-
-
 
 \end{document}
