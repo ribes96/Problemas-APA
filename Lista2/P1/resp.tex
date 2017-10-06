@@ -1,0 +1,233 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+%opening
+\title{1. L'anàlisi de components principals en dues variables}
+\author{Albert Ribes}
+
+\begin{document}
+
+\maketitle
+
+% \begin{abstract}
+%
+% \end{abstract}
+
+% \section{}
+
+\textbf{
+Siguin $X_1$ i $X_2$ dues variables aleatòries estandarditzades i amb correlació $\rho > 0$. Construirem un PCA pas a pas a partir de la matriu de correlació teòrica $R$. Es demana:
+}
+
+\begin{enumerate}
+  \item \textbf{Expresseu els dos valors propis $\lambda_1$ i $  \lambda_2$ de $R$}
+
+  Sabemos que R tendrá 1's es la diagonal principal (pues la correlación entre una variable y ella misma siempre es 1) y, puesto que es simétrica, en las otras dos posiciones tendrá $\rho$. Entonces tenemos que:
+
+  \begin{equation*}
+    R =
+    \begin{bmatrix}
+      1 & \rho \\
+      \rho & 1
+    \end{bmatrix}
+  \end{equation*}
+
+  Si $a$ es un vector propio de $R$, hay que encontrar $\lambda$ que cumpla que:
+
+  \begin{equation*}
+    R \cdot a = \lambda \cdot a
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{bmatrix}
+      1 & \rho \\
+      \rho & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        a_1 \\
+        a_2
+      \end{bmatrix}
+      = \lambda \cdot
+      \begin{bmatrix}
+          a_1 \\
+          a_2
+        \end{bmatrix}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_1 + a_2\rho = a_1\lambda \\
+      a_1\rho + a_2 = a_2\lambda
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_2\rho = a_1(\lambda - 1) \\
+      a_1\rho = a_2(\lambda - 1)
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_1 = \frac{a_2\rho}{\lambda - 1} \\
+      a_1 = \frac{a_2(\lambda - 1)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+      \frac{a_2\rho}{\lambda - 1} =
+      \frac{a_2(\lambda - 1)}{\rho}
+  \end{equation*}
+
+  \begin{equation*}
+    \rho^2 = (\lambda -1)^2
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      \rho = \lambda_1 - 1 \\
+      \rho = -(\lambda_2 - 1)
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      \lambda_1 = \rho + 1 \\
+      \lambda_2 = 1 - \rho
+    \end{cases}
+  \end{equation*}
+
+  Y puesto que $\rho > 0$ esta claro que $\lambda_1 > \lambda_2$
+
+
+  % Hay que encontrar 2 vectores $W_1$ y $W_2$ que cumplirán que $Y_1 = W_1^T \cdot \ R$ y $Y_2 = W_2^T \cdot \ R$ y que maximicen $Var(Y_1)$ y $Var(Y_2)$.
+  %
+  % Puesto que queremos una solución única establecemos la condición de que $||W_i||^2 = 1$
+  %
+  % $Var(Y_i) = Var(W_i^T \cdot R)$
+  %
+  % Se sabe que la varianza de un vector $W$ por una matriz $R$ se corresponde con $W^T \cdot Var() \cdot W$
+
+
+  \item \textbf{Expresseu els dos vectors propis corresponents $a_1$ i $a_2$}
+
+  Aprovechando las ecuaciones previas:
+
+  Para encontrar $a_1$:
+
+  \begin{equation*}
+    \begin{cases}
+      a_{11} = \frac{a_{12}\rho}{\lambda_1 - 1} \\
+      a_{11} = \frac{a_{12}(\lambda_1 - 1)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{11} = \frac{a_{12}\rho}{(\rho + 1) - 1} \\
+      a_{11} = \frac{a_{12}((\rho + 1) - 1)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{11} = \frac{a_{12}\rho}{\rho + 0} \\
+      a_{11} = \frac{a_{12}(\rho + 0)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{11} = a_{12} \\
+      a_{11} = a_{12}
+    \end{cases}
+  \end{equation*}
+
+  Y para encontrar $a_2$:
+
+  \begin{equation*}
+    \begin{cases}
+      a_{21} = \frac{a_{22}\rho}{\lambda_2 - 1} \\
+      a_{21} = \frac{a_{22}(\lambda_2 - 1)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{21} = \frac{a_{22}\rho}{(1 - \rho) - 1} \\
+      a_{21} = \frac{a_{22}((1 - \rho) - 1)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{21} = \frac{a_{22}\rho}{-\rho} \\
+      a_{21} = \frac{a_{22}(-\rho)}{\rho}
+    \end{cases}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{cases}
+      a_{21} = -a_{22} \\
+      a_{21} = -a_{22}
+    \end{cases}
+  \end{equation*}
+
+  Entonces la respuesta es:
+  \begin{equation*}
+    a_1 =
+    \begin{bmatrix}
+      z \\ z
+    \end{bmatrix}
+    , z \in \mathbb{R}
+  \end{equation*}
+
+  \begin{equation*}
+    a_2 =
+    \begin{bmatrix}
+      z \\ -z
+    \end{bmatrix}
+    , z \in \mathbb{R}
+  \end{equation*}
+
+  \item \textbf{Expresseu els nous eixos de coordenades, és a dir, doneu les dues components principals $Y_1$ i $Y_2$}
+
+  No nos sirven todas las ``instancias'' de $a_1$ y $a_2$ como vectores de proyección, pues hemos establecido la condición $||a_i||^2 = 1 \Rightarrow a_{i1}^2 + a_{i_2}^2 = 1$.
+
+  El vector de proyección de $Y_1$ debe cumplir:
+  \begin{equation*}
+    z^2 + z^2 = 1
+  \end{equation*}
+
+  \begin{equation*}
+    2z^2 = 1
+  \end{equation*}
+  \begin{equation*}
+    z = \frac{1}{\sqrt{2}}
+  \end{equation*}
+
+  \begin{equation*}
+    z = \frac{\sqrt{2}}{2}
+  \end{equation*}
+\end{enumerate}
+
+Y por lo tanto:
+\begin{equation*}
+  a_1 =
+  \begin{bmatrix}
+    \frac{\sqrt{2}}{2} \\ \\
+    \frac{\sqrt{2}}{2}
+  \end{bmatrix}
+\end{equation*}
+
+Y el vector de proyección de $Y_2$ debe cumplir:
+\begin{equation*}
+  z^2 + z^2 = 1
+\end{equation*}
+
+La norma
+\end{document}
