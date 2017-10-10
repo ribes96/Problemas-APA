@@ -1,0 +1,45 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+\usepackage{blkarray}
+\usepackage{breqn}
+
+%opening
+\title{7. Descomposició de barreja de Gaussianes}
+\author{Albert Ribes}
+
+\begin{document}
+
+\maketitle
+
+% \begin{abstract}
+%
+% \end{abstract}
+
+% \section{}
+
+\textbf{
+Considereu el model de barreja de Gaussianes:
+}
+
+\begin{equation*}
+p(x) = \sum_{k = 1}^{K} \pi_k \mathcal{N}(x; \mu_k, \Sigma_k)
+\end{equation*}
+
+\textbf{
+A classe hem vist que podem treballar amb un vector de variables (anomenades latents) $z$ , on $z_i \in \{0,1\}$
+i $\sum_{k = 1}^{K} z_i = 1$, de manera que $p(z_k = 1) = \pi_k$. Demostrar la descomposició alternativa de la barreja:
+}
+
+\begin{equation*}
+p(x) = \sum_{z} p(z)p(x|z)
+\end{equation*}
+
+\textbf{
+on $z$ es mou per tots els vectors que ténen una sola component a $1$ (i la resta a $0$).
+}
+\end{document}

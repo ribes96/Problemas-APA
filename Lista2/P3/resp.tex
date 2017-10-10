@@ -1,0 +1,102 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+\usepackage{blkarray}
+\usepackage{breqn}
+
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{DarkGreen},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{blue},
+    commentstyle=\color{DarkGreen},
+}
+
+%opening
+\title{5. Obtenció del criteri d'en Fisher}
+\author{Albert Ribes}
+
+\begin{document}
+
+\maketitle
+
+% \begin{abstract}
+%
+% \end{abstract}
+
+% \section{}
+
+\textbf{
+Usant les defnicions vistes a classe per les matrius de dispersió (\textit{scatter}) intra-classes $S_W$ i inter-classes
+$S_B$ , demostreu que el criteri d'en Fisher es pot escriure com:
+}
+
+\begin{equation*}
+J(w) = \frac{w^TS_Bw}{w^TS_Ww}
+\end{equation*}
+
+\begin{enumerate}
+  \item \textbf{Demostreu primer que $s_1^2 + s_2^2 = w^TS_Ww$}
+  
+  Repasamos primero las definiciones:
+  
+\begin{equation*}
+m_i = \frac{1}{N_i}\sum_{j \in C_i} x_j
+\end{equation*}
+
+\begin{equation*}
+\mu_i = w^T \cdot m_i
+\end{equation*}
+
+\begin{equation*}
+s_i^2 = \sum_{i \in C_i} (w^T \cdot x_i - \mu_i)^2
+\end{equation*}
+
+  \begin{equation*}
+  S_W = \sum_{i \in C_1} (x_i - m_1)(x_i - m_1)^T + 
+  \sum_{i \in C_2} (x_i - m_2)(x_i - m_2)^T
+  \end{equation*}
+  
+  \begin{equation*}
+S_B = (m_2 - m_1)(m_2 - m_1)^T
+\end{equation*}
+
+Por lo tanto hay que demostrar que:
+
+\begin{multline*}
+\sum_{i \in C_1} (w^T \cdot x_i - \mu_1)^2 + 
+\sum_{i \in C_2} (w^T \cdot x_i - \mu_2)^2 = \\ =
+w^T \cdot \Big[
+    \sum_{i \in C_1} (x_i - m_1)(x_i - m_1)^T + 
+    \sum_{i \in C_2} (x_i - m_2)(x_i - m_2)^T
+\Big] \cdot w
+\end{multline*}
+\hspace{2cm}
+\begin{multline*}
+\sum_{i \in C_1} (w^T \cdot x_i - w^T \cdot m_1)^2 + 
+\sum_{i \in C_2} (w^T \cdot x_i - w^T \cdot m_2)^2 = \\ =
+w^T \cdot \Big[
+    \sum_{i \in C_1} (x_i - m_1)(x_i - m_1)^T + 
+    \sum_{i \in C_2} (x_i - m_2)(x_i - m_2)^T
+\Big] \cdot w
+\end{multline*}
+
+\hspace{2cm}
+\begin{multline*}
+\sum_{i \in C_1} \Big(w^T (x_i - m_1)\Big)^2 + 
+\sum_{i \in C_2} \Big(w^T (x_i - m_2)\Big)^2 = \\ =
+w^T \cdot \Big[
+    \sum_{i \in C_1} (x_i - m_1)(x_i - m_1)^T + 
+    \sum_{i \in C_2} (x_i - m_2)(x_i - m_2)^T
+\Big] \cdot w
+\end{multline*}
+
+  \item \textbf{Demostreu que $(\mu_1 - \mu_2)^2 = w^TS_Bw$}
+\end{enumerate}
+\end{document}
