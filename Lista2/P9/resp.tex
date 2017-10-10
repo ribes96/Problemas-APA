@@ -1,0 +1,63 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+\usepackage{blkarray}
+\usepackage{breqn}
+
+%opening
+\title{9. Simplifcació de la barreja de Gaussianes 1 [G]}
+\author{Albert Ribes}
+
+\begin{document}
+
+\maketitle
+
+% \begin{abstract}
+%
+% \end{abstract}
+
+% \section{}
+
+\textbf{
+Considereu el model de barreja de Gaussianes:
+}
+
+\begin{equation*}
+p(x) = \sum_{k = 1}^{K} \pi_k \mathcal{N}(x; \mu_k, \Sigma_k)
+\end{equation*}
+
+\textbf{
+Preneu el cas que totes les matrius de covariança són iguals i diagonals, és a dir, $\Sigma_1 = \dots, \Sigma_K = \Sigma = diag(\sigma_1^2,\dots, \sigma_d^2)$
+}
+
+\begin{enumerate}
+\item \textbf{Enraoneu en quin sentit representa una simplifcació respecte al cas general (amb matrius de
+covariança generals), des dels punts de vista estadístic i geomètric.
+}
+
+Significa que las dimensiones son independientes entre ellas.
+
+Geométricamente esto significa que cada uno de los clusters generará instancias formando una probabilidad más circular, y menos ovalada.
+\item \textbf{Expresseu la funció de densitat de probabilitat $\mathcal{N}(x; \mu_k, \Sigma_k)$ que en resulta.
+}
+
+En el caso genérico la función de densidad de la distribución gaussiana multivariada es:
+
+\begin{equation*}
+\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(|\Sigma|)^{\frac{1}{2}}} exp\Bigg( -\frac{1}{2} (x - \mu)^T\Sigma^{-1}(x - \mu) \Bigg)
+\end{equation*}
+
+Pero ahora
+\item \textbf{Construïu la funció de log-versemblança negativa.
+}
+\item \textbf{Deriveu les equacions de l'algorisme E-M que en resulta i escriviu l'algorisme de clustering complet.
+}
+\item \textbf{Enraoneu sobre les implicacions (possibles avantatges/inconvenients) que representa la simplifcació
+respecte el cas general des del punt de vista del clustering.
+}
+\end{enumerate}
+\end{document}
