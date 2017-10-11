@@ -71,7 +71,7 @@ Pero se puede simplificar con las siguientes propiedades:
 Y entonces la fórmula anterior queda:
 
 \begin{equation*}
-\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \sigma_i^2(x_i - \mu_i)^2 \Big) \Bigg)
+\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
 \end{equation*}
 \item \textbf{Construïu la funció de log-versemblança negativa.
 }
@@ -82,13 +82,13 @@ l = -\ln \prod_{j = 1}^{M} p(x_j)
 \end{equation*}
 
 \begin{equation*}
-l = -\sum_{j = 1}^{M} \ln(p(x)) 
+l = -\sum_{j = 1}^{M} \ln(p(x_j)) 
 \end{equation*}
 
 \begin{equation*}
 l = -\sum_{j = 1}^{M} \Bigg[ 
 \ln\Big(
-\sum_{k = 1}^{K} \pi_k \mathcal{N}(x; \mu_k, \Sigma_k)
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
 \Big)
 \Bigg] 
 \end{equation*}
@@ -99,7 +99,7 @@ l = -\sum_{j = 1}^{M} \Bigg[
 \ln\Big(
 \sum_{k = 1}^{K}
 \big(
-    \pi_k \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \sigma_i^2(x_i - \mu)^2 \Big) \Bigg)
+    \pi_k \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_{ji} - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
 \big)
 \Big)
 \Bigg] 
@@ -107,6 +107,58 @@ l = -\sum_{j = 1}^{M} \Bigg[
 
 \item \textbf{Deriveu les equacions de l'algorisme E-M que en resulta i escriviu l'algorisme de clustering complet.
 }
+
+Hay que derivar respecto a $\pi$, $\mu$ y $\Sigma$.
+
+La derivada respecto a cada una de las $\pi_q$ es:
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+\frac{1}{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot \frac{\partial \Big( 
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Big)}{\partial \pi_q}
+\Bigg] 
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+\frac{1}{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot \mathcal{N}(x_j, \mu_q, \Sigma_q)
+\Bigg] 
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+\frac
+{\mathcal{N}(x_j, \mu_q, \Sigma_q)}
+{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\Bigg] 
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+\frac
+{\mathcal{N}(x_j, \mu_q, \Sigma_q)}
+{
+p(x_j)
+}
+\Bigg] 
+\end{equation*}
+
+
+
 \item \textbf{Enraoneu sobre les implicacions (possibles avantatges/inconvenients) que representa la simplifcació
 respecte el cas general des del punt de vista del clustering.
 }
