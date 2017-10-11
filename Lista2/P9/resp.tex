@@ -201,6 +201,149 @@ p(x_j)
     }
 \Bigg] 
 \end{equation*}
+Por simplificar las equaciones derivamos por separado $\mathcal{N}$:
+
+\begin{equation*}
+\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Bigg)
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
+\cdot \frac
+{\partial \Big(
+-\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2}
+\Big)}
+{\partial \mu_q}
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
+\cdot
+\Big(
+-\frac{1}{2}
+    \big(
+        \frac{1}{\sigma_q^2}
+        2(x_q - \mu_q)
+        (-1)
+    \big)
+\Big)
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} =
+\mathcal{N}
+\cdot
+\Big(
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\Big)
+\end{equation*}
+
+
+
+La derivada respecto a cada una de las $\mu_q$ es:
+
+\begin{equation*}
+l = -\sum_{j = 1}^{M} \Bigg[ 
+\ln\Big(
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Big)
+\Bigg] 
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M} \Bigg[
+\frac{1}
+{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot
+\Big(
+    \sum_{k = 1}^{K} \pi_k
+    \frac{\partial \mathcal{N}(x_j; \mu_k, \Sigma_k)}{\partial \mu_q}
+\Big)
+\Bigg]
+\end{equation*}
+
+
+Y sustituyendo de la anterior ecuación, tenemos:
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M} \Bigg[
+\frac{1}
+{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot
+\Big(
+    \sum_{k = 1}^{K} \pi_k
+    \mathcal{N}
+\cdot
+\Big(
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\Big)
+\Big)
+\Bigg]
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M} \Bigg[
+\frac{1}
+{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot
+\Big(
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\Big)
+    \sum_{k = 1}^{K} \pi_k
+    \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Bigg]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M} \Bigg[
+\frac{1}
+{
+p(x_j)
+}
+\cdot
+\Big(
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\Big)
+    p(x_j)
+\Bigg]
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M}
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+\sum_{j = 1}^{M}
+        \frac{\mu_q - x_q}{\sigma_q^2}
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+        \frac{M(\mu_q - x_q)}{\sigma_q^2}
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+        \frac{M\mu_q}{\sigma_q^2} - 
+        \frac{Mx_q}{\sigma_q^2}
+\end{equation*}
 
 
 \item \textbf{Enraoneu sobre les implicacions (possibles avantatges/inconvenients) que representa la simplifcació
