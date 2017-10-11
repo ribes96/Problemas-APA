@@ -21,7 +21,11 @@
 
 %opening
 \title{9. Simplifcació de la barreja de Gaussianes 1 [G]}
-\author{Albert Ribes}
+\author{
+Josep de Cid
+\and Albert Ribes
+\and Kerstin Winter
+}
 
 \begin{document}
 
@@ -150,13 +154,53 @@ La derivada respecto a cada una de las $\pi_q$ es:
 \frac{\partial l}{\partial \pi_q} = 
 -\sum_{j = 1}^{M} \Bigg[ 
 \frac
-{\mathcal{N}(x_j, \mu_q, \Sigma_q)}
+{p(x_j | \pi_k = \pi_q)}
 {
 p(x_j)
 }
 \Bigg] 
 \end{equation*}
 
+Usando el teorema de Bayes, que dice:
+
+\begin{equation*}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{equation*}
+
+Podemos sustituirlo por:
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+\frac
+{
+    \frac
+    {
+        p(\pi_k = \pi_q|x_j)p(x_j)
+    }
+    {
+        p(\pi_k = \pi_q)
+    }
+}
+{
+p(x_j)
+}
+\Bigg] 
+\end{equation*}
+
+
+\begin{equation*}
+\frac{\partial l}{\partial \pi_q} = 
+-\sum_{j = 1}^{M} \Bigg[ 
+    \frac
+    {
+        p(\pi_k = \pi_q|x_j)
+    }
+    {
+        p(\pi_k = \pi_q)
+    }
+\Bigg] 
+\end{equation*}
 
 
 \item \textbf{Enraoneu sobre les implicacions (possibles avantatges/inconvenients) que representa la simplifcació
