@@ -70,6 +70,7 @@ En el caso genérico la función de densidad de la distribución gaussiana multi
 Pero se puede simplificar con las siguientes propiedades:
 \begin{itemize}
 \item $det( diag(\alpha_1,\alpha_2, \dots, \alpha_n) ) = \prod_{i = 1}^n \alpha_i$
+\item $diag(\alpha_1, \alpha_2, \dots, \alpha_n)^{-1} = diag(\alpha_1^{-1}, \alpha_2^{-1}, \dots, \alpha_n^{-1})$
 \item $(\alpha_1,\alpha_2, \dots, \alpha_n)^T \cdot diag(\beta_1,\beta_2, \dots, beta_n) = (\alpha_1\beta_1, \alpha_2\beta_2, \dots, \alpha_n\beta_n)^T$
 \end{itemize}
 
@@ -376,6 +377,24 @@ Y si usamos la ecuación \ref{eq:1} tenemos:
 \Big)
     \sum_{k = 1}^{K} \pi_k
     \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Bigg]
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l}{\partial \mu_q} =
+-\sum_{j = 1}^{M} \Bigg[
+\frac
+{
+\sum_{k = 1}^{K} \pi_k
+    \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+{
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+}
+\cdot
+\Big(
+        \frac{x_q - \mu_q}{\sigma_q^2}
+\Big)
 \Bigg]
 \end{equation*}
 
