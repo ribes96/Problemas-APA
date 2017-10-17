@@ -17,6 +17,7 @@
 \usepackage[svgnames]{xcolor}
 \usepackage{blkarray}
 \usepackage{breqn}
+\usepackage{caption}
 
 
 %opening
@@ -56,14 +57,14 @@ covariança generals), des dels punts de vista estadístic i geomètric.
 
 Significa que las dimensiones son independientes entre ellas.
 
-Geométricamente esto significa que cada uno de los clusters generará instancias formando una probabilidad más circular, y menos ovalada.
+Geométricamente esto significa que cada uno de los clusters generará instancias formando una probabilidad con forma elipsoide alargada en la cual el eje mayor es paralelo a alguno de los ejes del sistema de coordenadas.
 \item \textbf{Expresseu la funció de densitat de probabilitat $\mathcal{N}(x; \mu_k, \Sigma_k)$ que en resulta.
 }
 
 En el caso genérico la función de densidad de la distribución gaussiana multivariada con $D$ variables es:
 
 \begin{equation*}
-\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(|\Sigma|)^{\frac{1}{2}}} exp\Bigg( -\frac{1}{2} (x - \mu)^T\Sigma^{-1}(x - \mu) \Bigg)
+\mathcal{N}(x;\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(|\Sigma|)^{\frac{1}{2}}} exp\Bigg( -\frac{1}{2} (x - \mu)^T\Sigma^{-1}(x - \mu) \Bigg)
 \end{equation*}
 
 Pero se puede simplificar con las siguientes propiedades:
@@ -75,22 +76,22 @@ Pero se puede simplificar con las siguientes propiedades:
 Y entonces la fórmula anterior queda:
 
 \begin{equation*}
-\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
+\mathcal{N}(x;\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
 \end{equation*}
 \item \textbf{Construïu la funció de log-versemblança negativa.
 }
 
-En el caso de que se disponga de $M$ puntos de la distribución:
+En el caso de que se disponga de $M$ datos $D = \{x_1, x_2, \dots, x_M\}$ la función log-verosimilitud negativa es:
 \begin{equation*}
-l = -\ln \prod_{j = 1}^{M} p(x_j) 
+l(\pi, \mu, \Sigma; D) = -\ln \prod_{j = 1}^{M} p(x_j) 
 \end{equation*}
 
 \begin{equation*}
-l = -\sum_{j = 1}^{M} \ln(p(x_j)) 
+l(\pi, \mu, \Sigma; D) = -\sum_{j = 1}^{M} \ln(p(x_j)) 
 \end{equation*}
 
 \begin{equation*}
-l = -\sum_{j = 1}^{M} \Bigg[ 
+l(\pi, \mu, \Sigma; D) = -\sum_{j = 1}^{M} \Bigg[ 
 \ln\Big(
 \sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
 \Big)
@@ -98,26 +99,106 @@ l = -\sum_{j = 1}^{M} \Bigg[
 \end{equation*}
 
 
-\begin{equation*}
-l = -\sum_{j = 1}^{M} \Bigg[ 
-\ln\Big(
-\sum_{k = 1}^{K}
-\big(
-    \pi_k \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_{ji} - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
-\big)
-\Big)
-\Bigg] 
-\end{equation*}
+% \begin{equation*}
+% l = -\sum_{j = 1}^{M} \Bigg[ 
+% \ln\Big(
+% \sum_{k = 1}^{K}
+% \big(
+%     \pi_k \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \Big( \frac{(x_{ji} - \mu_i)^2}{\sigma_i^2} \Big) \Bigg)
+% \big)
+% \Big)
+% \Bigg] 
+% \end{equation*}
 
 \item \textbf{Deriveu les equacions de l'algorisme E-M que en resulta i escriviu l'algorisme de clustering complet.
 }
 
-Hay que derivar respecto a $\pi$, $\mu$ y $\Sigma$.
-
-La derivada respecto a cada una de las $\pi_q$ es:
+Antes de seguir avanzando vamos a definir la función $\gamma_k(x)$, que es la probabilidad de que sea la distribución $k$ la que ha generado el dato $x$. Formalmente:
 
 \begin{equation*}
-\frac{\partial l}{\partial \pi_q} = 
+\gamma_k(x) = p(z_k = 1 | x)
+\end{equation*}
+
+\begin{equation*}
+\gamma_k(x) =
+\frac
+{p(x_k = 1)p(x | z_k = 1)}
+{\sum_{j = 1}^{K} p(z_j = 1)p(x | z_j = 1)}
+\end{equation*}
+
+\begin{equation*}
+\gamma_k(x) =
+\frac
+{\pi_k \mathcal{N}(x; \mu_k, \Sigma_k)}
+{\sum_{j = 1}^{K}
+    \pi_j \mathcal{N}(x; \mu_j, \Sigma_j)
+}
+\end{equation*}
+
+Esta función nos será útil más adelante.
+
+Para encontrar los extremos vamos a tener que derivar respecto a los valores de $\pi$, $\mu$ y $\Sigma$, y además debe cumplirse la condición de que $\sum_{k = 1}^{K} \pi_k = 1$. Para resolver este problema usaremos los multiplicadores de Lagrange.
+
+La función de Lagrange es:
+
+\begin{equation*}
+\mathcal{L}(\pi, \mu, \Sigma, \lambda) = l(\pi, \mu, \Sigma; D) - \lambda \cdot \Big[(\sum_{k = 1}^{K} \pi_k) - 1\Big]
+\end{equation*}
+
+\begin{equation*}
+\mathcal{L}(\pi, \mu, \Sigma, \lambda) =
+-\sum_{j = 1}^{M} \Bigg[ 
+\ln\Big(
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Big)
+\Bigg] 
+- \lambda \cdot \Big[(\sum_{k = 1}^{K} \pi_k) - 1\Big]
+\end{equation*}
+
+Como más adelante hará falta, calculamos previamente algunas derivadas intermedias:
+
+\begin{equation*}
+\frac{\partial \mathcal{N}(x; \mu,\Sigma)}{\partial \mu_q} = 
+\mathcal{N}(x; \mu, \Sigma) \cdot
+\Big[
+    -\frac{1}{2} \cdot \frac{2(x_q - \mu_q)}{\sigma_q^2} (-1)
+\Big]
+\end{equation*}
+
+\begin{equation}
+\label{eq:1}
+\frac{\partial \mathcal{N}(x; \mu,\Sigma)}{\partial \mu_q} = 
+\mathcal{N}(x; \mu, \Sigma)
+    \frac{(x_q - \mu_q)}{\sigma_q^2}
+\end{equation}
+
+Hay que derivar respecto a los valores de $\pi$, $\mu$ y $\Sigma$ y $\lambda$ e igualar a 0.
+
+\begin{equation*}
+\frac
+{\partial \mathcal{L}(\pi,\mu, \Sigma, \lambda)}
+{\partial \pi_q} = 
+\frac
+{\partial l(\pi, \mu, \Sigma; D)}
+{\partial \pi_q}
+-
+\frac
+{\partial \lambda
+\Big[
+    \Big(
+        \sum_{k = 1}^{K} \pi_k
+    \Big) - 1
+\Big]
+}
+{\partial \pi_q}
+\end{equation*}
+
+Y si lo hacemos por partes:
+
+\begin{equation*}
+\frac
+{\partial l(\pi, \mu, \Sigma; D)}
+{\partial \pi_q} = 
 -\sum_{j = 1}^{M} \Bigg[ 
 \frac{1}{
 \sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
@@ -150,102 +231,93 @@ La derivada respecto a cada una de las $\pi_q$ es:
 \Bigg] 
 \end{equation*}
 
+Y esto se puede expresar usando la función $\gamma_k$ que hemos definido previamente:
+
 \begin{equation*}
-\frac{\partial l}{\partial \pi_q} = 
--\sum_{j = 1}^{M} \Bigg[ 
 \frac
-{p(x_j | \pi_k = \pi_q)}
-{
-p(x_j)
-}
-\Bigg] 
+{\partial l(\pi, \mu, \Sigma; D)}
+{\partial \pi_q} = 
+-\sum_{j = 1}^{M}
+    \Bigg[
+        \frac
+        {\gamma_q(x_j)}
+        {\pi_q}
+    \Bigg]
 \end{equation*}
 
-Usando el teorema de Bayes, que dice:
-
+Y
 \begin{equation*}
-P(A|B) = \frac{P(B|A)P(A)}{P(B)}
-\end{equation*}
-
-Podemos sustituirlo por:
-
-\begin{equation*}
-\frac{\partial l}{\partial \pi_q} = 
--\sum_{j = 1}^{M} \Bigg[ 
 \frac
-{
-    \frac
-    {
-        p(\pi_k = \pi_q|x_j)p(x_j)
-    }
-    {
-        p(\pi_k = \pi_q)
-    }
+{\partial \lambda
+\Big[
+    \Big(
+        \sum_{k = 1}^{K} \pi_k
+    \Big) - 1
+\Big]
 }
-{
-p(x_j)
-}
-\Bigg] 
+{\partial \pi_q} = 
+\lambda
 \end{equation*}
 
-
+Y por lo tanto:
 \begin{equation*}
-\frac{\partial l}{\partial \pi_q} = 
--\sum_{j = 1}^{M} \Bigg[ 
-    \frac
-    {
-        p(\pi_k = \pi_q|x_j)
-    }
-    {
-        p(\pi_k = \pi_q)
-    }
-\Bigg] 
-\end{equation*}
-Por simplificar las equaciones derivamos por separado $\mathcal{N}$:
-
-\begin{equation*}
-\mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Bigg)
+\frac
+{\partial \mathcal{L}(\pi,\mu, \Sigma, \lambda)}
+{\partial \pi_q} = 
+-\sum_{j = 1}^{M}
+    \Bigg[
+        \frac
+        {\gamma_q(x_j)}
+        {\pi_q}
+    \Bigg]
+- \lambda
 \end{equation*}
 
-
-\begin{equation*}
-\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
-\cdot \frac
-{\partial \Big(
--\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2}
-\Big)}
-{\partial \mu_q}
-\end{equation*}
-
-\begin{equation*}
-\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
-\cdot
-\Big(
--\frac{1}{2}
-    \big(
-        \frac{1}{\sigma_q^2}
-        2(x_q - \mu_q)
-        (-1)
-    \big)
-\Big)
-\end{equation*}
-
-
-\begin{equation*}
-\frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} =
-\mathcal{N}
-\cdot
-\Big(
-        \frac{x_q - \mu_q}{\sigma_q^2}
-\Big)
-\end{equation*}
+% Por simplificar las equaciones derivamos por separado $\mathcal{N}$:
+% 
+% \begin{equation*}
+% \mathcal{N}(x|\mu,\Sigma) = \frac{1}{(2\pi)^{(\frac{D}{2})}} \cdot \frac{1}{(\prod_{i = 1}^n \sigma_i)} exp\Bigg( -\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2} \Bigg)
+% \end{equation*}
+% 
+% 
+% \begin{equation*}
+% \frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
+% \cdot \frac
+% {\partial \Big(
+% -\frac{1}{2} \sum_{i = 1}^{d} \frac{(x_i - \mu_i)^2}{\sigma_i^2}
+% \Big)}
+% {\partial \mu_q}
+% \end{equation*}
+% 
+% \begin{equation*}
+% \frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} = \mathcal{N}
+% \cdot
+% \Big(
+% -\frac{1}{2}
+%     \big(
+%         \frac{1}{\sigma_q^2}
+%         2(x_q - \mu_q)
+%         (-1)
+%     \big)
+% \Big)
+% \end{equation*}
+% 
+% 
+% \begin{equation*}
+% \frac{\partial \mathcal{N}(x|\mu, \Sigma)}{\partial \mu_q} =
+% \mathcal{N}
+% \cdot
+% \Big(
+%         \frac{x_q - \mu_q}{\sigma_q^2}
+% \Big)
+% \end{equation*}
 
 
 
 La derivada respecto a cada una de las $\mu_q$ es:
 
 \begin{equation*}
-l = -\sum_{j = 1}^{M} \Bigg[ 
+l(\pi, \mu, \Sigma; D) = -\sum_{j = 1}^{M} \Bigg[ 
 \ln\Big(
 \sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
 \Big)
@@ -268,7 +340,7 @@ l = -\sum_{j = 1}^{M} \Bigg[
 \end{equation*}
 
 
-Y sustituyendo de la anterior ecuación, tenemos:
+Y si usamos la ecuación \ref{eq:1} tenemos:
 \begin{equation*}
 \frac{\partial l}{\partial \mu_q} =
 -\sum_{j = 1}^{M} \Bigg[
@@ -279,11 +351,13 @@ Y sustituyendo de la anterior ecuación, tenemos:
 \cdot
 \Big(
     \sum_{k = 1}^{K} \pi_k
-    \mathcal{N}
-\cdot
-\Big(
-        \frac{x_q - \mu_q}{\sigma_q^2}
-\Big)
+%     \mathcal{N}
+% \cdot
+% \Big(
+%         \frac{x_q - \mu_q}{\sigma_q^2}
+% \Big)
+\mathcal{N}(x_j; \mu_k, \Sigma_k)
+    \frac{(x_q - \mu_q)}{\sigma_q^2}
 \Big)
 \Bigg]
 \end{equation*}
@@ -305,6 +379,8 @@ Y sustituyendo de la anterior ecuación, tenemos:
 \Bigg]
 \end{equation*}
 
+Tengo que corregir a partir de aquí
+% TODO
 \begin{equation*}
 \frac{\partial l}{\partial \mu_q} =
 -\sum_{j = 1}^{M} \Bigg[
