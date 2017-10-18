@@ -50,6 +50,8 @@ p(x) = \sum_{k = 1}^{K} \pi_k \mathcal{N}(x; \mu_k, \Sigma_k)
 Preneu el cas que totes les matrius de covariança són iguals i diagonals, és a dir, $\Sigma_1 = \dots, \Sigma_K = \Sigma = diag(\sigma_1^2,\dots, \sigma_d^2)$
 }
 
+
+
 \begin{enumerate}
 \item \textbf{Enraoneu en quin sentit representa una simplifcació respecte al cas general (amb matrius de
 covariança generals), des dels punts de vista estadístic i geomètric.
@@ -439,6 +441,25 @@ p(x_j)
         \frac{M\mu_q}{\sigma_q^2} - 
         \frac{Mx_q}{\sigma_q^2}
 \end{equation*}
+
+
+La derivada respecto a $\sigma_q^2$ es:
+
+\begin{equation*}
+l(\pi, \mu, \Sigma; D) = -\sum_{j = 1}^{M} \Bigg[ 
+\ln\Big(
+\sum_{k = 1}^{K} \pi_k \mathcal{N}(x_j; \mu_k, \Sigma_k)
+\Big)
+\Bigg] 
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial l(\pi, \mu, \Sigma; D)}{\partial \Sigma_q} = -\sum_{j = 1}^{M} 
+\Bigg[ 
+    \frac{}{}
+\Bigg] 
+\end{equation*}
+
 
 
 \item \textbf{Enraoneu sobre les implicacions (possibles avantatges/inconvenients) que representa la simplifcació
