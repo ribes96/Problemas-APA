@@ -38,13 +38,14 @@ sd = c(
 )
 
 energy.inv = 1/energy
-d = matrix(c(st, energy.inv), ncol = 2)
-d.df = as.data.frame(d)
 var = sd^2
 w = 1 / var
-l.heter = lm(formula = V2 ~ V1, weights = w, data = d.df)
-l.homo = lm(formula = V2 ~ V1, data = d.df)
-# V2 is energy, V1 is st
+
+df = data.frame(energy.inv, st)
+
+l.heter = lm(formula = energy.inv ~ st, weights = w, data = df)
+l.homo = lm(formula = energy.inv ~ st, data = df)
+
 
 plot(st,energy.inv)
 abline(l.heter$coefficients[1], l.heter$coefficients[2], col = "red")
