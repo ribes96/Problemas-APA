@@ -43,10 +43,10 @@ w = 1 / var
 
 df = data.frame(energy.inv, st)
 
-l.heter = lm(formula = energy.inv ~ st, weights = w, data = df)
-l.homo = lm(formula = energy.inv ~ st, data = df)
+l.heter = lm(formula = st ~ energy.inv, weights = w, data = df)
+l.homo = lm(formula = st ~ energy.inv, data = df)
 
 
-plot(st,energy.inv)
+plot(energy.inv,st)
 abline(l.heter$coefficients[1], l.heter$coefficients[2], col = "red")
 abline(l.homo$coefficients[1], l.homo$coefficients[2], col = "blue")
