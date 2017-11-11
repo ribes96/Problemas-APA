@@ -47,6 +47,9 @@ l.heter = lm(formula = st ~ energy.inv, weights = w, data = df)
 l.homo = lm(formula = st ~ energy.inv, data = df)
 
 
-plot(energy.inv,st)
+
+plot(energy.inv,st, ylab = "Secció transversal", xlab = "Inversa de la energia")
+legend('topleft', c("Asumiendo heterocedasticidad","Asumiendo homocedasticidad") , lty=1, col=c('red', 'blue'), bty='L', cex=.75)
 abline(l.heter$coefficients[1], l.heter$coefficients[2], col = "red")
 abline(l.homo$coefficients[1], l.homo$coefficients[2], col = "blue")
+
