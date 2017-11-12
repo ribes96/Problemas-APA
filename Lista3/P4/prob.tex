@@ -3,6 +3,7 @@
 \usepackage[catalan]{babel}
 \usepackage{mathtools}
 \usepackage{amsmath}
+\usepackage{multicol}
 
 
 \author{Albert Ribes}
@@ -31,78 +32,216 @@ dades:
 \begin{enumerate}
   \item Plantegeu el problema com un problema de mínims quadrats
 
-  La variable objetivo será:
+  {\bfseries
 
-\begin{equation*}
-  t =
-  \begin{bmatrix}
-7.97 \\
-10.2 \\
-14.2 \\
-16.0 \\
-21.2 \\
-  \end{bmatrix}
-\end{equation*}
+  La ecuación que plantearemos es:
 
-Los datos de entrada serán:
+  \begin{equation*}
+    l = y(F; w) = w_0\phi_0(F) + w_1\phi_1(F)
+  \end{equation*}
 
-\begin{equation*}
-  X =
-  \begin{bmatrix}
-    1 \\
-    2 \\
-    3 \\
-    4 \\
-    5 \\
-  \end{bmatrix}
-\end{equation*}
+  De modo que $w_0$ será $e$ y $w_1$ será $k$. Para poder establecer la equivalencia con la fórmula indicada hay que elegir unas funciones de base en particular.
+  Definimos la variable objetivo ($l$), los datos de entrada ($F$), y las funciones de base ($\phi_0$, $\phi_1$, $\phi$ y $\Phi$)
+  \begin{multicols}{3}
 
-Y las funciones de base serán:
+    \begin{equation*}
+      l =
+      \begin{bmatrix}
+    7.97 \\
+    10.2 \\
+    14.2 \\
+    16.0 \\
+    21.2 \\
+      \end{bmatrix}
+    \end{equation*}
 
-\begin{equation*}
-  \phi_0(x) = e
-\end{equation*}
+    %%%%%%%%
 
-\begin{equation*}
-  \phi_1(x) = 1
-\end{equation*}
+    \begin{equation*}
+      F =
+      \begin{bmatrix}
+        1 \\
+        2 \\
+        3 \\
+        4 \\
+        5 \\
+      \end{bmatrix}
+    \end{equation*}
 
-De modo que:
+    \begin{equation*}
+      \phi_0(x) = 1
+    \end{equation*}
 
-\begin{equation*}
-  \phi =
-  \begin{bmatrix}
-    e \\
-    1 \\
-  \end{bmatrix}
-\end{equation*}
+    \begin{equation*}
+      \phi_1(x) = x
+    \end{equation*}
 
+    \begin{equation*}
+      \phi =
+      \begin{bmatrix}
+        1 \\
+        x \\
+      \end{bmatrix}
+    \end{equation*}
 
-Y:
+    \begin{equation*}
+      \Phi =
+      \begin{bmatrix}
+        1 & 1 \\
+        1 & 2\\
+        1 & 3 \\
+        1 & 4 \\
+        1 & 5 \\
+      \end{bmatrix}
+    \end{equation*}
 
-\begin{equation*}
-  \Phi =
-  \begin{bmatrix}
-    e & 1 \\
-    e & 1\\
-    e & 1 \\
-    e & 1 \\
-    e & 1 \\
-  \end{bmatrix}
-\end{equation*}
+  \end{multicols}
 
 
 Y ahora con estos datos habría que encontrar $w$ mediante la resolución de
 la ecuación:
 
 \begin{equation*}
-  \Phi^T\Phi w = \Phi^T t
+  \Phi^T\Phi w = \Phi^T l
 \end{equation*}
+
+}
 
 
   \item Resoleu-lo amb el métode de la matriu pseudo-inversa
+
+{\bfseries
+
+  Hay que resolver:
+
+  \begin{equation*}
+    w = (\Phi^T\Phi)^{-1}\Phi^T l
+  \end{equation*}
+
+  Si ponemos los datos en R, dice que:
+
+\begin{multicols}{2}
+
+  \begin{equation*}
+    \Phi^T\Phi =
+    \begin{bmatrix}
+        5 & 15 \\
+        15 & 55
+    \end{bmatrix}
+  \end{equation*}
+
+  \begin{equation*}
+    (\Phi^T\Phi)^{-1} =
+    \begin{bmatrix}
+        1.1 & -0.3 \\
+        -0.3 & 0.1
+    \end{bmatrix}
+  \end{equation*}
+
+
+  \begin{equation*}
+    (\Phi^T\Phi)^{-1} \Phi^T =
+    \begin{bmatrix}
+      0.8 & 0.5 & 0.2 & -0.1 & -0.4 \\
+      -0.2 & -0.1 & 0.0 & 0.1 & 0.2
+    \end{bmatrix}
+  \end{equation*}
+
+  \begin{equation*}
+    (\Phi^T\Phi)^{-1} \Phi^T l =
+    \begin{bmatrix}
+      4.236 \\
+      3.226
+    \end{bmatrix}
+  \end{equation*}
+
+
+\end{multicols}
+
+De modo que $e = w_0 = 4.236$ y $k = w_1 = 3.226$
+
+}
+
+
   \item Resoleu-lo amb el métode basat en la SVD
+
+  {\bfseries
+
+  Si llamamos al método \texttt{svd()} de R con la matriz de diseño $\Phi$ nos
+  retorna:
+
+  \begin{multicols}{2}
+    \begin{equation*}
+      U =
+      \begin{bmatrix}
+        0.1600071 & 0.7578903 \\
+         0.2853078 & 0.4675462 \\
+        0.4106086 & 0.1772020 \\
+         0.5359094 & -0.1131421 \\
+        0.6612102 & -0.4034862
+      \end{bmatrix}
+    \end{equation*}
+
+
+
+
+
+    \begin{equation*}
+      V =
+      \begin{bmatrix}
+        0.2669336 & 0.9637149 \\
+        0.9637149 & -0.2669336
+      \end{bmatrix}
+    \end{equation*}
+
+
+    \begin{equation*}
+      \Delta =
+      \begin{bmatrix}
+        7.691213 & 0.0000000 \\
+        0.000000 & 0.9193696
+      \end{bmatrix}
+    \end{equation*}
+
+  \end{multicols}
+
+  De modo que tenemos que resolver:
+  \begin{equation*}
+    w = (\Phi^T\Phi)^{-1}\Phi^T l = ((U\Delta V)^T(U\Delta V))^{-1}(U\Delta V)^T l
+  \end{equation*}
+
+  \begin{equation*}
+    w = V\Delta^{-1}U^T l
+  \end{equation*}
+
+  \begin{equation*}
+    w =
+    \begin{bmatrix}
+      0.8 & 0.5 & 2.000000e-01 & -0.1 & -0.4 \\
+      -0.2 & -0.1 & 2.081668e-17 & 0.1 & 0.2
+    \end{bmatrix}
+      l
+  \end{equation*}
+
+  \begin{equation*}
+    w =
+    \begin{bmatrix}
+      4.236 \\
+      3.226
+    \end{bmatrix}
+  \end{equation*}
+
+
+  Se llega a la misma conclusión que en el apartado anterior, puesto que
+  en este problema la resolución de la inversa directamente no daba
+  demasiados problemas.
+
+  }
+
+
+
 \end{enumerate}
+
 
 
 
