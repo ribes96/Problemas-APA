@@ -1,0 +1,109 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{mathtools}
+\usepackage{amsmath}
+
+
+\author{Albert Ribes}
+\title{Problema 4: Propietats elàstiques d'una molla [R]}
+
+\begin{document}
+\maketitle
+Volem determinar les propietats elàstiques d'una molla usant diferents pesos i mesurant la deformació
+que es produeix. La llei de Hooke relaciona la longitud l i la força F que exerceix el pes com:
+
+\begin{equation*}
+e + kF = l
+\end{equation*}
+
+on $e$, $k$ són constants de la llei, que es volen determinar. S'ha realitzat un experiment i obtingut les
+dades:
+
+\begin{center}
+\begin{tabular}{c c c c c c}
+  F & 1 & 2 & 3 & 4 & 5 \\
+  \hline
+  l & 7.97 & 10.2 & 14.2 & 16.0 & 21.2 \\
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item Plantegeu el problema com un problema de mínims quadrats
+
+  La variable objetivo será:
+
+\begin{equation*}
+  t =
+  \begin{bmatrix}
+7.97 \\
+10.2 \\
+14.2 \\
+16.0 \\
+21.2 \\
+  \end{bmatrix}
+\end{equation*}
+
+Los datos de entrada serán:
+
+\begin{equation*}
+  X =
+  \begin{bmatrix}
+    1 \\
+    2 \\
+    3 \\
+    4 \\
+    5 \\
+  \end{bmatrix}
+\end{equation*}
+
+Y las funciones de base serán:
+
+\begin{equation*}
+  \phi_0(x) = e
+\end{equation*}
+
+\begin{equation*}
+  \phi_1(x) = 1
+\end{equation*}
+
+De modo que:
+
+\begin{equation*}
+  \phi =
+  \begin{bmatrix}
+    e \\
+    1 \\
+  \end{bmatrix}
+\end{equation*}
+
+
+Y:
+
+\begin{equation*}
+  \Phi =
+  \begin{bmatrix}
+    e & 1 \\
+    e & 1\\
+    e & 1 \\
+    e & 1 \\
+    e & 1 \\
+  \end{bmatrix}
+\end{equation*}
+
+
+Y ahora con estos datos habría que encontrar $w$ mediante la resolución de
+la ecuación:
+
+\begin{equation*}
+  \Phi^T\Phi w = \Phi^T t
+\end{equation*}
+
+
+  \item Resoleu-lo amb el métode de la matriu pseudo-inversa
+  \item Resoleu-lo amb el métode basat en la SVD
+\end{enumerate}
+
+
+
+\end{document}
