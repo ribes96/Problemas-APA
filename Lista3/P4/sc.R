@@ -13,7 +13,10 @@ phi.1 = function(x) return(x)
 
 PHI = cbind(apply(f, MARGIN = 1, FUN = phi.0), apply(f, MARGIN = 1, FUN = phi.1))
 
+(design = t(PHI) %*% PHI)
+
+
 library(MASS)
 
 
-w = ginv(t(PHI) %*% PHI) %*% t(PHI) %*% l
+# w = ginv(t(PHI) %*% PHI) %*% t(PHI) %*% l
