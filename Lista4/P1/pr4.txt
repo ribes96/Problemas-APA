@@ -1,0 +1,413 @@
+APA: Aprenentatge Automàtic (TEMES 5 i 6)
+Grau en Enginyeria Informàtica - UPC (2017/18)
+Lluís A. Belanche,
+
+belanche@cs.upc.edu
+
+Entrega: 11 Desembre 2017
+
+Els problemes marcats
+
+Objectius:
+
+[G] són de grup; els problemes/apartats marcats [R] són per fer-se en R
+
+1. Conéixer i saber derivar la funció d'error més adequada per classicació
+2. Saber crear i aplicar classicadors discriminatius Bayesians
+3. Entendre i aplicar la regressió logística
+
+Problema 1
+Considerem un problema de classicació en dues classes, en les quals es disposa de les probabilitats de
+cada classe P (C1 ) i P (C2 ). Considerem tres possibles regles per classicar un objecte:
+1. (R1 ) Predir la classe més probable
+2. (R2 ) Predir la classe C1 amb probabilitat P (C1 )
+3. (R3 ) Predir la classe C1 amb probabilitat 0.5
+Es demana:
+1. Donar les probabilitats d'error Pi (error) de les tres regles, i = 1, 2, 3
+2. Demostrar que P1 (error) ≤ P2 (error) ≤ P3 (error)
+
+.........
+Problema 2 Funcions d'error per classicació [G]
+L'objectiu dels models probabilístics discriminatius per classicació és modelar les probabilitats a posteriori P (Ck |x) per a cada classe k. En tasques de classicació binària (dues classes, C1 i C2 ), modelem
+amb una funció y(x) = P (C1 |x); llavors 1 − y(x) = P (C2 |x). Tenim una mostra aleatòria simple D de
+llargada N del mecanisme p(t, x), que escrivim D = {(x1 , t1 ), . . . , (xN , tN )}, on xn ∈ Rd i tn ∈ {0, 1}.
+Prenem la convenció que tn = 1 indica xn ∈ C1 i tn = 0 indica xn ∈ C2 , i modelem:
+
+P (t|x) =
+
+y(x)
+1 − y(x)
+
+si xn ∈ C1
+si xn ∈ C2
+
+que pot ser més convenientment expressat com P (t|x) = y(x)t (1 − y(x))1−t , t = 0, 1. Aquesta és una
+distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb criteris ben fonamentats.
+1. Construïu la funció log-versemblança de la mostra i proposeu una funció d'error a partir d'ella.
+2. Generalitzeu el resultat a un número arbitrari K ≥ 2 de classes.
+
+.........
+
+TEMES 5 i 6
+
+APA: Aprenentatge Automàtic
+
+Problema 3 Model probabilístic generatiu per variables binàries
+Considerem el cas de tenir d variables binàries xi ∈ {0, 1} en un problema de classicació en K classes,
+C1 , . . . , CK . La distribució conjunta P (x) = P (x1 , . . . , xd ) requereix en principi el coneixement de 2d − 1
+números (les respectives probabilitats de cada combinació) per cada classe, la qual cosa no és factible.
+Decidim doncs treballar amb distribucions condicionals (per cada classe k) de la forma:
+P (x|Ck ) =
+
+d
+Y
+
+pxkii (1 − pki )1−xi
+
+i=1
+
+on pki és la probabilitat de tenir un 1 a la variable binària i per la classe k, que es pot estimar de les
+dades. Es demana:
+1. Argumenteu per què aquesta decissió correspon a assumir que les d variables binàries són estadísticament independents donada la classe.
+2. Doneu l'expressió per les funcions discriminants ak (x) que en resulten. Són discriminants lineals?
+3. Doneu l'expressió per la probabilitat a posteriori P (Ck |x).
+
+.........
+Problema 4 LDA: model probabilístic generatiu per variables gaussianes [G]
+Sabem que un vector aleatori continu en d variables X = (X1 , . . . , Xd )T segueix una distribució normal
+(o gaussiana), cosa que escrivim X ∼ N (µ, Σ), quan la seva densitat de probabilitat és:
+p(x) =
+
+
+
+1
+T −1
+(x
+−
+µ)
+Σ
+(x
+−
+µ)
+exp
+−
+d
+1
+2
+(2π) 2 |Σ| 2
+1
+
+2
+on µ és el vector de les mitjanes i Σd×d = (σij
+) és la matriu de covariances. Volem disenyar un classicador probabilístic generatiu per un problema de dues classes (K = 2), on les distribucions condicionals
+(per cada classe k) són gaussianes amb
+matriu de covariança, o sigui X|Ck ∼ N (µk , Σ).
+
+igual
+
+1. Mostreu que les probabilitats a posteriori es poden expressar P (Ck |x) = g(wT x + w0 ), on g és la
+funció logística.
+2. Doneu (calculant-los amb tots els passos) els valors per w i w0 . Argumenteu si obteniu un classicador lineal o no i per què.
+3. Exteneu el resultat al cas d'un número arbitrari de classes K ≥ 2.
+
+.........
+Problema 5 La fàbrica de píndoles I
+La companyia farmacèutica Nice Pills ha construit una cinta transportadora que porta dues classes de
+píndoles (adequades per dos tipus de malalties diferents), que anomenem C1 i C2 . Aquestes píndoles
+surten en dos colors: {yellow, white}, que són detectats per una càmera. La companyia fabrica píndoles
+en proporcions P (C1 ) = 13 , P (C2 ) = 32 . Se'ns facilita també informació sobre la distribució del color per
+cada classe: P (yellow|C1 ) = 51 , P (white|C1 ) = 54 i P (yellow|C2 ) = 23 , P (white|C2 ) = 31 . Es demana:
+1. Quina és la probabilitat d'error si no s'utilitza el color per classicar?
+2. Calcular les probabilitats P (yellow) i P (white) i les probabilitats P (C1 |yellow), P (C2 |yellow),
+P (C1 |white) i P (C2 |white).
+2
+
+TEMES 5 i 6
+
+APA: Aprenentatge Automàtic
+
+3. Quina és la decissió òptima per pastilles yellow? I per pastilles white? Quins són els
+ambdós casos?
+
+odds
+
+en
+
+4. Quina és la probabilitat d'error si s'utilitza el color per classicar? Per què és millor que la de
+l'apartat 1?
+Feu tots els càlculs i doneu tots els resultats en forma de
+
+.........
+
+fraccions.
+
+Problema 6 La fàbrica de píndoles II
+La companyia farmacèutica Good Pills (competidora de l'anterior) ha construit una cinta transportadora
+que porta dues classes de píndoles (adequades per dos tipus de malalties diferents), que anomenem C1 i
+C2 . Aquestes píndoles surten en tres colors: {yellow, white, red}, que són detectats per una càmera. La
+companyia fabrica píndoles en proporcions P (C1 ) = 31 , P (C2 ) = 23 . Se'ns facilita també informació sobre
+la distribució del color per cada classe:
+C1
+C2
+
+yellow
+1/5
+2/4
+
+white
+3/5
+1/4
+
+red
+1/5
+1/4
+
+1. Quina és la probabilitat d'error si no s'utilitza el color per classicar?
+2. Calcular les probabilitats P (yellow), P (white) i P (red) i les probabilitats P (C1 |yellow),P (C2 |yellow),
+P (C1 |white),P (C2 |white),P (C1 |red) i P (C2 |red).
+3. Quina és la decissió òptima per pastilles yellow? I per pastilles white? I per pastilles red? Quins
+són els odds en tots els casos?
+4. Quina és la probabilitat d'error si s'utilitza el color per classicar? Per què és millor que la de
+l'apartat 1?
+Feu tots els càlculs i doneu tots els resultats en forma de
+
+.........
+
+fraccions.
+
+Problema 7 La fàbrica de píndoles III [G]
+La companyia farmacèutica Smart Pills (competidora de les anteriors) ha construit una cinta transportadora que porta dues classes de píndoles (adequades per dos tipus de malalties diferents), que anomenem
+C1 i C2 . Aquestes píndoles surten en un ombrejat de colors que va del yellow al white (que és detectat per una càmera, donant un valor continu en [0, 2]). La companyia fabrica píndoles en proporcions
+P (C1 ) = 13 , P (C2 ) = 32 . Se'ns facilita també informació sobre la distribució (contínua) del color per cada
+classe:
+p(x|C1 ) =
+
+2−x
+x
+, p(x|C2 ) =
+2
+2
+
+1. Quina és la probabilitat d'error si no s'utilitza el color per classicar?
+2. Calcular la distribució
+
+incondicional
+
+del color p(x) = P (C1 )p(x|C1 ) + P (C2 )p(x|C2 ).
+
+3. Calcular les distribucions de probabilitat P (C1 |x) i P (C2 |x).
+4. Quina és la classicació òptima en funció del color?
+5. Quina és la probabilitat d'error si s'utilitza el color per classicar? Per què és millor que la de
+l'apartat 1?
+
+.........
+3
+
+TEMES 5 i 6
+
+APA: Aprenentatge Automàtic
+
+Problema 8 Els classicadors LDA i QDA [G]
+Sabem que un vector aleatori continu en d variables X = (X1 , . . . , Xd )T segueix una distribució normal
+(o gaussiana), cosa que escrivim X ∼ N (µ, Σ), quan la seva densitat de probabilitat és:
+
+
+
+1
+T −1
+− (x − µ) Σ (x − µ)
+p(x) =
+d
+1 exp
+2
+(2π) 2 |Σ| 2
+1
+
+2
+on µ és el vector de les mitjanes i Σd×d = (σij
+) és la matriu de covariances. Volem disenyar un classicador probabilístic generatiu per un problema de dues classes (K = 2), on les distribucions condicionals
+(per cada classe k) són gaussianes, és a dir, X|Ck ∼ N (µk , Σk ). Sabem que el classicador de mínim risc
+(anomenat regla de Bayes ) que minimitza la probabilitat d'error s'obté amb la fòrmula de Bayes:
+
+P (Ck |x) =
+
+p(x|Ck )P (Ck )
+p(x|Ck )P (Ck )
+=
+p(x)
+p(x|C1 )P (C1 ) + p(x|C2 )P (C2 )
+
+triant-se la classe Ck , k = 1, 2 que maximitza aquestes probabilitats a posteriori. Es demana:
+1. Construïu la funció discriminant per la classe Ck com gk (x) = ln {P (Ck )p(x|Ck )}; elimineu termes
+que no afectin el resultat. Argumenteu quin tipus de superfícies de separació en resulten.
+
+igual
+
+2. Assumim ara que totes les classes ténen
+matriu de covariança, o sigui X|Ck ∼ N (µk , Σ).
+Simpliqueu l'expressió anterior al màxim. Argumenteu quin tipus de superfícies de separació en
+resulten. Pel cas K = 2, és usual construir un únic discriminant g(x) = g1 (x) − g2 (x) (sovint
+anomenat un dichotomizer ). Expresseu-lo.
+3. Veiem-ne un petit exemple numèric per d = 3. Suposem les densitats gaussianes de classe:
+µ1 = (0, 0, 0)T , µ2 = (1, 1, 1)T , Σ1 = Σ2 = diag
+
+Construïu el
+
+dichotomizer
+
+1 1 1
+, ,
+, P (C2 ) = 2P (C1 )
+4 4 4
+
+i apliqueu-lo a la predicció de l'exemple de test x∗ = (0.1, 0.7, 0.8)T
+
+.........
+Problema 9
+Considerem dues distribucions condicionals (per cada classe) són gaussianes bivariades (d = 2) amb
+matriu de covariança, de la forma X|Ck ∼ N (µk , Σ), k = 1, 2.
+
+igual
+
+1. Suposant que les dues classes són igual de probables, calculeu la regla de classicació òptima.
+0.3
+2. Apliqueu el resultat a les dades µ1 = (0, 0)T , µ2 = (3, 3)T i Σ = ( 1.1
+0.3 1.9 ), per obtenir una regla de
+classicació concreta.
+
+3. Classiqueu el punt x∗ = (1.0, 2.2)T .
+4. Calculeu kx∗ − µ1 k i kx∗ − µ2 k i notareu que kx∗ − µ1 k > kx∗ − µ2 k. Com quadra això amb el
+resultat del punt anterior?
+
+.........
+
+4
+
+TEMES 5 i 6
+
+APA: Aprenentatge Automàtic
+
+Problema 10 Juguem a tennis?
+Dos amics han recopilat dades sobre diverses vegades en que havien quedat per jugar a tennis (unes
+vegades van acabar jugant i altres no, depenent de les previsions meteorològiques).
+Outlook
+Sunny
+Sunny
+Overcast
+Rain
+Rain
+Rain
+Overcast
+Sunny
+Sunny
+Rain
+Sunny
+Overcast
+Overcast
+Rain
+
+Temperature
+Hot
+Hot
+Hot
+Mild
+Cool
+Cool
+Cool
+Mild
+Cool
+Mild
+Mild
+Mild
+Hot
+Mild
+
+Humidity
+High
+High
+High
+High
+Normal
+Normal
+Normal
+High
+Normal
+Normal
+Normal
+High
+Normal
+High
+
+Wind
+Weak
+Strong
+Weak
+Weak
+Weak
+Strong
+Strong
+Weak
+Weak
+Weak
+Strong
+Strong
+Weak
+Strong
+
+PlayTennis?
+No
+No
+Yes
+Yes
+Yes
+No
+Yes
+No
+Yes
+Yes
+Yes
+Yes
+Yes
+No
+
+Construïu un classicador Naïve Bayes i utilitzeu-lo per determinar si haurien de jugar a tenis en les
+condicions d'un exemple de test x∗ = (Sunny, Hot, Normal, Weak)T . Noteu que no cal calcular totes les
+probabilitats possibles, sinó només les imprescindibles per aquesta predicció concreta.
+
+.........
+Problema 11 Interpretació de models de regressió logística
+Considerem un model de regressió logística y(x) = g(wT x + w0 ), on g és la funció logística. Es demana:
+1. Deriveu una interpretació per un coecient qualsevol wi (diferent de w0 ) a partir de la variació dels
+odds quan xi passa a ser xi + δi i apliqueu-la al cas particular δi = 1.
+2. Tenim y(x) = g(1.3x1 + 0.7x2 − 0.29x3 + 0.54). Apliqueu la interpretació al coecient de x1 quan
+δ1 = 1 i al coecient de x3 quan δ3 = −0.5.
+
+.........
+Problema 12 Obtenció de la regressió logística
+Una manera elegant d'arribar al model de regressió logística és partir dels odds. En tasques de classicació
+binària (dues classes, C1 i C2 ), considerem el logaritme natural dels odds (anomenat logit or log-odds )
+per un x qualsevol:
+
+ln
+
+P (C1 |x)
+P (C2 |x)
+
+
+
+
+= ln
+
+P (C1 |x)
+1 − P (C1 |x)
+
+
+
+Resoleu aquesta fòrmula en la probabilitat, calculant la funció inversa de la logit. Deniu el model
+que en resulta com el de regressió logística i doneu-ne una interpretació en termes de linealitat del model.
+
+.........
+
+5
+
+

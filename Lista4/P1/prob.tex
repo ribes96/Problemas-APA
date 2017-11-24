@@ -1,0 +1,58 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\author{Albert Ribes}
+\title{Problema 1}
+
+\begin{document}
+  \maketitle
+  Considerem un problema de classificació en dues classes, en les quals es disposa de les probabilitats de
+  cada classe $P(C_1)$ i $P(C_2)$. Considerem tres possibles regles per classificar un objecte:
+  \begin{enumerate}
+    \item ($R_1$) Predir la classe més probable
+    \item ($R_2$) Predir la classe $C_1$ amb probabilitat $P(C_1)$
+    \item ($R_3$) Predir la classe $C_1$ amb probabilitat $0.5$
+  \end{enumerate}
+  Es demana:
+  \begin{enumerate}
+    \item Donar les probabilitats d'error $P_i(error)$ de les tres regles, $i = 1, 2, 3$
+    {\bfseries
+    \begin{itemize}
+      \item El error de la regla $R_1$ es $min(P(C_1), P(C_2))$
+      \item Sea $Q(C_i)$ la probabilidad de predecir la clase $C_i$. La probabilidad de error de la regla $R_2$ es $P(C_1) \wedge Q(C_2) + P(C_2) \wedge Q(C_1)$. Puesto que $P$ y $Q$ son probabilidades
+      independientes, se puede escribir como $P(C_1) \cdot Q(C_2) + P(C_2) \cdot Q(C_1)$. Pero $Q(C_i) = P(C_i)$, como indica la regla. Por lo tanto el error de la regla $R_2$ es $P(C_1) \cdot (1 - P(C_1)) + (1 - P(C_1)) \cdot P(C_1)$, que equivale a $2P(C_1) - 2P(C_1)^2$
+      \item Este es un caso particular de la regla $R_2$. Ahora el error es
+      $P(C_1) \cdot 0,5 + (1 - P(C_1)) \cdot 0,5 \equiv 0,5$
+    \end{itemize}
+
+    }
+    \item Demostrar que $P_1(error) \leq P_2(error) \leq P_3(error)$
+
+    {\bfseries
+
+    Sin pérdida de generalidad asumiremos que $P(C_1) \geq \frac{1}{2}$. El caso
+    contrario es simétrico. Entonces para la primera parte de la demostración
+    hay que demostrar que
+    \begin{eqnarray*}
+    P(C_2)  \leq 2P(C_1) - 2P(C_1)^2  & \equiv\\
+    1 - P(C_1)  \leq 2P(C_1) - 2P(C_1)^2 & \equiv \\
+    2P(C_1)^2 - 3P(C_1) + 1  \leq 0  &
+    \end{eqnarray*}
+
+    Usaremos la fórmula de las ecuaciones de segundo grado para resolverlo:
+
+    \begin{eqnarray*}
+      P(C_1) = \frac{3 \pm \sqrt{9 - 4 \cdot 2 \cdot 1}}{2 \cdot 2} = \frac{3 \pm 1}{4}
+      \Rightarrow P(C_1) \notin (\frac{1}{2} , 1)
+    \end{eqnarray*}
+
+    Esto es claramente una contradicción. Habrá que ver qué nos está pasando
+
+
+
+
+
+    }
+  \end{enumerate}
+\end{document}

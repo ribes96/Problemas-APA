@@ -45,68 +45,64 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
     &=& \prod_{i = 1}^{n} y(x_i)^{t_i} (1 - y(x_i))^{1-t_i}
   \end{eqnarray*}
 
+  En nuestro caso queremos modelar $y(x_i)$ como $w^Tx_i + w_0$. Para simplificar la notación añadiremos a $x_i$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x_i) = w^Tx_i$
+
+  Definiremos la función log-verosimilitud de manera que dependa de $w$, e intentaremos maximizar esa verosimilitud.
+
+  Haciendo una sustitución de la fórmula anterior, podemos definir log-verosimilitud como:
+
+  \begin{eqnarray*}
+    l
+    &=& \ln
+    \prod_{i = 1}^{n}
+    (w^Tx_i)^{t_i}
+    (1 - w^Tx_i)^{(1 - t_i)} \\
+    %
+    &=&
+    \sum_{i = 1}^{n} \ln(w^Tx_i)^{t_i} + \ln (1 - w^Tx_i)^{(1 - t_i)} \\
+    %
+    &=&
+    \sum_{i = 1}^{n} t_i \ln w^Tx_i
+    +
+    \sum_{i = 1}^{n} (1 - t_i)\ln(1 - w^Tx_i)
+  \end{eqnarray*}
+
   Para encontrar la función log-verosimilitud hemos de encontrar los valores de
-  $y(x_i)$ que maximicen esta probabilidad, y para ello haremos la derivada respecto
-  de $y(x_i)$ para cada $i \in [1, n]$ de su logaritmo
+  $w$ que maximicen esta probabilidad, y para ello haremos la derivada respecto
+  de $w_j$ para cada $j \in [0, d]$ de su logaritmo
   natural y la igualaremos a $0$:
 
   \begin{eqnarray*}
-    l_j &=& 0 \\
+    \frac{\partial l}{w_j} &=& 0 \\
 %
-    \frac{\partial}{\partial y(x_j)}
-    \ln
-    \Big[
-     \prod_{i = 1}^{n} y(x_i)^{t_i} (1 - y(x_i))^{1-t_i}
-    \Big] &=& 0 \\
+    \frac{\partial}{\partial w_j}
+    \sum_{i = 1}^{n} t_i \ln (w^Tx_i)
+    +
+    \sum_{i = 1}^{n} (1 - t_i)\ln(1 - w^Tx_i)
+    &=& 0\\
     %
-    \frac{\partial}{\partial y(x_j)}
-    \Big[
-    \sum_{i = 1}^{n} t_i\ln
-        y(x_i)
-     +
-    \sum_{i = 0}^{n} (1-t_i)\ln
-        (1 - y(x_i))
-    \Big] &=& 0\\
+    \sum_{i = 1}^{n} t_i \frac{1}{w^Tx_i} x_j
+    +
+    \sum_{i = 1}^{n} (1 - t_i) \frac{1}{1 - w^Tx_i} x_j
+    &=& 0\\
     %
-    t_j\frac{1}{y(x_j)}
-     +
-     (1-t_j)\frac{1}{(1 - y(x_j))} &=& 0 \\
+    x_j\sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
+    -
+    x_j\sum_{i = 1}^{n} \frac{t_i - 1}{1 - w^Tx_i}
+    &=& 0\\
     %
-    \frac{t_j}{y(x_j)}
-     &=&
-     -\frac{1-t_j}{(1 - y(x_j))} \\
-     %
-     (1 - y(x_j))t_j
-      &=&
-      -y(x_j)(1-t_j) \\
-      %
-      t_j - t_jy(x_j)
-      &=&
-      -y(x_j)(1-t_j) \\
-      %
-      t_j
-      &=&
-      -y(x_j)(1-t_j) + t_jy(x_j)\\
-      %
-      t_j
-      &=&
-      y(x_j)
-      \big(
-        t_j - 1 + t_j
-      \big) \\
-      %
-      \frac{t_j}{2t_j - 1}
-      &=&
-      y(x_j) \\
+    \sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
+    &=&
+    \sum_{i = 1}^{n} \frac{t_i - 1}{1 - w^Tx_i} \\
   \end{eqnarray*}
 
-  Que, para el caso particular en que $t_i \in \{0, 1\}$, se puede escribir
-  como:
-  \begin{eqnarray*}
-    y(x_j) = t_j
-  \end{eqnarray*}
+  % Que, para el caso particular en que $t_i \in \{0, 1\}$, se puede escribir
+  % como:
+  % \begin{eqnarray*}
+  %   y(x_j) = t_j
+  % \end{eqnarray*}
 
-  Este resultado es lógico: la opción más verosímil es la que ya se ha observado.
+  % Este resultado es lógico: la opción más verosímil es la que ya se ha observado.
 
 
 
