@@ -54,7 +54,7 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
 
        % En nuestro caso queremos modelar $y(x_i)$ como $w^Tx_i + w_0$. Para simplificar la notación añadiremos a $x_i$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x_i) = w^Tx_i$
 
-       La función log-verosimilitud debe maximizar la probabilidad de haber observado los datos $D$, y debe hacerlo mediante el parámetro $w$. Para simplicar los cálculos se trabaja con el logaritmo natural de esa probabilidad, que no afecta en los parámetros que la maximizan. De este modo podemos definir la función log-verosimilitud como:
+       La función log-verosimilitud debe maximizar la probabilidad de haber observado los datos $D$, y debe hacerlo mediante el parámetro $w$. Para simplificar los cálculos se trabaja con el logaritmo natural de esa probabilidad, que no afecta en los parámetros que la maximizan. De este modo podemos definir la función log-verosimilitud como:
 
        % Definiremos la función log-verosimilitud de manera que dependa de $w$, e intentaremos maximizar esa verosimilitud.
        %
@@ -156,7 +156,7 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
          x_N & t_{N1} & t_{N2} & \hdots & t_{Nk} } \qquad
        \end{equation*}
 
-       Donde $t_{ij}$ es $1$ si $x_i \in C_k$ y es $0$ si $x_i \notin C_k$.
+       Donde $t_{ij}$ es $1$ si $x_i \in C_j$ y es $0$ si $x_i \notin C_j$.
 
        Para no confundir la notación, redefinimos la muestra de datos como $D = \{(x_1, z_1), (x_2, z_2), \dots, (x_N, z_N)\}$, donde $z_n \in \{1,2,\dots,K\}$
 
@@ -173,7 +173,7 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
        Entonces el modelo que definimos es
 
        \begin{equation*}
-           y_k(x) = g(W_kx)
+        y_k(x) = g(W_kx)
        \end{equation*}
 
        Donde $W_k$ es la fila $k$ de la matriz $W$
@@ -189,14 +189,14 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
        \begin{equation*}
         P(z|x) = \prod_{k = 1}^{K} y_k(x)^{t_{iz}}
        \end{equation*}
-    %    \footnote{He puesto una $z$ en vez de $t$ para no causar confusión con los elementos de la matriz $T$, pero el significado es el mismo que en el apartado anterior}
+       %    \footnote{He puesto una $z$ en vez de $t$ para no causar confusión con los elementos de la matriz $T$, pero el significado es el mismo que en el apartado anterior}
 
        Entonces la probabilidad de haber observado los datos $D$ es
 
        \begin{eqnarray*}
-           P(z_1|x_1)P(z_2|x_2)\dots P(z_N|x_N)
-           &=&
-           \prod_{i = 1}^{N} P(z_i|x_i) \\
+        P(z_1|x_1)P(z_2|x_2)\dots P(z_N|x_N)
+        &=&
+        \prod_{i = 1}^{N} P(z_i|x_i) \\
         %
         &=&
         \prod_{i = 1}^{N} y_{z_i}(x_i) \\
@@ -208,19 +208,19 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
        Y la función log-verosimilitud se puede definir como
 
        \begin{eqnarray*}
-           l(D; W) &=&
-           \sum_{i = 1}^{N}
-           \ln y_{z_i}(x_i) \\
+        l(D; W) &=&
+        \sum_{i = 1}^{N}
+        \ln y_{z_i}(x_i) \\
         %
-            &=&
-            \sum_{i = 1}^{N}
-            \ln g(W_{z_i}\cdot x_i)
+        &=&
+        \sum_{i = 1}^{N}
+        \ln g(W_{z_i}\cdot x_i)
        \end{eqnarray*}
 
        Entonces la función de error propuesta es
 
        \begin{eqnarray*}
-           E(D;W) &=& -l(D;W) \\
+        E(D;W) &=& -l(D;W) \\
         %
         &=& -\sum_{i = 1}^{N}
         \ln g(W_{z_i}\cdot x_i)
