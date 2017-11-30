@@ -2,12 +2,17 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
+\usepackage{kbordermatrix}
+\usepackage{amsfonts}
 
 % Permitir que las ecuaciones se distribuyan en 2 páginas
 \allowdisplaybreaks
 
 \author{
-Albert Ribes
+Gerard Barrachina \and
+Josep de Cid \and
+Albert Ribes \and
+Kerstin Winter
 }
 
 \title{
@@ -20,126 +25,236 @@ Problema 2. Funcions d'error per classificació [G]
 
 L'objectiu dels models probabilístics discriminatius per classificació és modelar les probabilitats a posteriori $P(C_k |x)$ per a cada classe $k$. En tasques de classificació binària (dues classes, $C_1$ i $C_2$ ), modelem
 amb una funció $y(x) = P(C_1 |x)$; llavors $1 - y(x) = P(C_2 |x)$. Tenim una mostra aleatòria simple $D$ de
-llargada $N$ del mecanisme $p(t, x)$, que escrivim $D = \{(x_1 , t1 ), \dots, (x_N , t_N )\}$, on $x_n \in R^d$ i $t_n \in \{ 0, 1\}$.
+llargada $N$ del mecanisme $p(t, x)$, que escrivim $D = \{(x_1 , t_1 ), \dots, (x_N , t_N )\}$, on $x_n \in \mathbb{R}^d$ i $t_n \in \{ 0, 1\}$.
 Prenem la convenció que $t_n = 1$ indica $x_n \in C_1$ i $t_n = 0$ indica $x_n \in C_2$ , i modelem:
 
 \begin{equation*}
-  P(t|x) =
-  \begin{cases}
-      y(x) & \text{si } x_n \in C_1 \\
-      1 - y(x) & \text{si } x_n \in C2
-  \end{cases}
+ P(t|x) =
+ \begin{cases}
+  y(x)     & \text{si } x_n \in C_1 \\
+  1 - y(x) & \text{si } x_n \in C2
+ \end{cases}
 \end{equation*}
 
 que pot ser més convenientment expressat com $P(t|x) = y(x)^t (1 - y(x))^{1-t}$ , $t = \{ 0, 1\}$. Aquesta és una
 distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb criteris ben fonamentats.
 
 \begin{enumerate}
-  \item Construïu la funció log-versemblança de la mostra i proposeu una funció d'error a partir d'ella.
+ \item Construïu la funció log-versemblança de la mostra i proposeu una funció d'error a partir d'ella.
 
-  {\bfseries
-  Asumiendo que los datos son independientes e idénticamente distribuidos, la probabilidad de haber observado los datos $D$ es
+       {\bfseries
+       Asumiendo que los datos son independientes e idénticamente distribuidos, la probabilidad de haber observado los datos $D$ es
 
-  \begin{eqnarray*}
-    P(t_1 | x_1 )P(t_2 | x_2 )\dots P(t_n | x_n ) &=& \prod_{i = 1}^{N} P(t_i | x_i ) \\
-    &=& \prod_{i = 1}^{n} y(x_i)^{t_i} (1 - y(x_i))^{1-t_i}
-  \end{eqnarray*}
+       \begin{eqnarray*}
+        P(t_1 | x_1 )P(t_2 | x_2 )\dots P(t_n | x_n ) &=& \prod_{i = 1}^{N} P(t_i | x_i ) \\
+        &=& \prod_{i = 1}^{N} y(x_i)^{t_i} (1 - y(x_i))^{1-t_i}
+       \end{eqnarray*}
 
-  En nuestro caso queremos modelar $y(x_i)$ como $w^Tx_i + w_0$. Para simplificar la notación añadiremos a $x_i$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x_i) = w^Tx_i$
+       Puesto que se trata de un problema de clasificación, modelaremos $y(x)$ como $g(w^Tx + w_0)$, donde $g$ es la función logística, que se define como $g(z) = \frac{1}{1 + exp(-z)}$. Para simplificar la notación añadiremos a $x$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x) = g(w^Tx)$
 
-  Definiremos la función log-verosimilitud de manera que dependa de $w$, e intentaremos maximizar esa verosimilitud.
+       % En nuestro caso queremos modelar $y(x_i)$ como $w^Tx_i + w_0$. Para simplificar la notación añadiremos a $x_i$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x_i) = w^Tx_i$
 
-  Haciendo una sustitución de la fórmula anterior, podemos definir log-verosimilitud como:
+       La función log-verosimilitud debe maximizar la probabilidad de haber observado los datos $D$, y debe hacerlo mediante el parámetro $w$. Para simplicar los cálculos se trabaja con el logaritmo natural de esa probabilidad, que no afecta en los parámetros que la maximizan. De este modo podemos definir la función log-verosimilitud como:
 
-  \begin{eqnarray*}
-    l
-    &=& \ln
-    \prod_{i = 1}^{n}
-    (w^Tx_i)^{t_i}
-    (1 - w^Tx_i)^{(1 - t_i)} \\
-    %
-    &=&
-    \sum_{i = 1}^{n} \ln(w^Tx_i)^{t_i} + \ln (1 - w^Tx_i)^{(1 - t_i)} \\
-    %
-    &=&
-    \sum_{i = 1}^{n} t_i \ln w^Tx_i
-    +
-    \sum_{i = 1}^{n} (1 - t_i)\ln(1 - w^Tx_i)
-  \end{eqnarray*}
+       % Definiremos la función log-verosimilitud de manera que dependa de $w$, e intentaremos maximizar esa verosimilitud.
+       %
+       % Haciendo una sustitución de la fórmula anterior, podemos definir log-verosimilitud como:
 
-  Para encontrar la función log-verosimilitud hemos de encontrar los valores de
-  $w$ que maximicen esta probabilidad, y para ello haremos la derivada respecto
-  de $w_j$ para cada $j \in [0, d]$ de su logaritmo
-  natural y la igualaremos a $0$:
+       \begin{eqnarray*}
+        l(D, w)
+        &=& \ln
+        \prod_{i = 1}^{N}
+        g(w^Tx_i)^{t_i}
+        (1 - g(w^Tx_i))^{(1 - t_i)} \\
+        %
+        &=&
+        \sum_{i = 1}^{N} \ln(g(w^Tx_i))^{t_i} + \ln (1 - g(w^Tx_i))^{(1 - t_i)} \\
+        %
+        % &=&
+        % \sum_{i = 1}^{n} t_i \ln g(w^Tx_i)
+        % +
+        % \sum_{i = 1}^{n} (1 - t_i)\ln(1 - g(w^Tx_i))
+        &=&
+        \sum_{i = 1}^{N}
+        t_i\ln g(w^Tx_i) + (1-t_i)\ln(1-g(w^Tx_i))
+       \end{eqnarray*}
 
-  \begin{eqnarray*}
-    \frac{\partial l}{w_j} &=& 0 \\
-%
-    \frac{\partial}{\partial w_j}
-    \sum_{i = 1}^{n} t_i \ln (w^Tx_i)
-    +
-    \sum_{i = 1}^{n} (1 - t_i)\ln(1 - w^Tx_i)
-    &=& 0\\
-    %
-    \sum_{i = 1}^{n} t_i \frac{1}{w^Tx_i} x_j
-    +
-    \sum_{i = 1}^{n} (1 - t_i) \frac{1}{1 - w^Tx_i} x_j
-    &=& 0\\
-    %
-    x_j\sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
-    -
-    x_j\sum_{i = 1}^{n} \frac{t_i - 1}{1 - w^Tx_i}
-    &=& 0\\
-    %
-    \sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
-    &=&
-    \sum_{i = 1}^{n} \frac{t_i - 1}{1 - w^Tx_i} \\
-  \end{eqnarray*}
+       Entonces una buena función de error sería menos log-verosimilitud, i.e:
 
-  % Que, para el caso particular en que $t_i \in \{0, 1\}$, se puede escribir
-  % como:
-  % \begin{eqnarray*}
-  %   y(x_j) = t_j
-  % \end{eqnarray*}
+       \begin{eqnarray*}
+        E(D; w) &=& -l(D; w) \\
+        %
+        &=&
+        -\sum_{i = 1}^{N}
+        t_i\ln g(w^Tx_i) + (1-t_i)\ln(1-g(w^Tx_i))
+       \end{eqnarray*}
 
-  % Este resultado es lógico: la opción más verosímil es la que ya se ha observado.
+       %   Para encontrar la función log-verosimilitud hemos de encontrar los valores de
+       %   $w$ que maximicen esta probabilidad, y para ello haremos la derivada respecto
+       %   de $w_j$ para cada $j \in [0, d]$ de su logaritmo
+       %   natural y la igualaremos a $0$:
+       %
+       %   \begin{eqnarray*}
+       %     \frac{\partial l}{w_j} &=& 0 \\
+       % %
+       %     \frac{\partial}{\partial w_j}
+       %     \sum_{i = 1}^{n} t_i \ln (w^Tx_i)
+       %     +
+       %     \sum_{i = 1}^{n} (1 - t_i)\ln(1 - w^Tx_i)
+       %     &=& 0\\
+       %     %
+       %     \sum_{i = 1}^{n} t_i \frac{1}{w^Tx_i} x_j
+       %     +
+       %     \sum_{i = 1}^{n} (1 - t_i) \frac{1}{1 - w^Tx_i} (-x_j)
+       %     &=& 0\\
+       %     %
+       %     x_j\sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
+       %     -
+       %     x_j\sum_{i = 1}^{n} \frac{1 - t_i}{1 - w^Tx_i}
+       %     &=& 0\\
+       %     %
+       %     \sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
+       %     &=&
+       %     \sum_{i = 1}^{n} \frac{1 - t_i}{1 - w^Tx_i} \\
+       %     %
+       %     ---------------- &=& -------\\
+       %     %
+       %     \sum_{i = 1}^{n}  \frac{t_i}{w^Tx_i}
+       %     &=&
+       %     \sum_{i = 1}^{n} \frac{1}{1 - w^Tx_i} - \frac{t_i}{1 - w^Tx_i} \\
+       %
+       %   \end{eqnarray*}
 
+       % Que, para el caso particular en que $t_i \in \{0, 1\}$, se puede escribir
+       % como:
+       % \begin{eqnarray*}
+       %   y(x_j) = t_j
+       % \end{eqnarray*}
 
-
-  }
-
-  \item Generalitzeu el resultat a un número arbitrari $K \geq 2$ de classes.
-
-  {\bfseries
-
-  Para simplificar la notación definimos la matriz
-  \begin{equation*}
-    Y_{N \times K} =
-    \begin{bmatrix}
-      P(C_1 | x_1) & P(C_2 | x_1) & \dots & P(C_K | x_1) \\
-      P(C_1 | x_2) & P(C_2 | x_2) & \dots & P(C_K | x_2) \\
-      \vdots       & \vdots       & \ddots& \vdots       \\
-      P(C_1 | x_N) & P(C_2 | x_N) & \dots & P(C_K | x_N) \\
-    \end{bmatrix}
-  \end{equation*}
-
-  Esta matriz debe cumplir que
-
-  \begin{equation*}
-    \forall i \in [1,N],  \sum_{j = 1}^{K} Y_{ij} = 1
-  \end{equation*}
-
-  Y entonces el modelo se puede definir como
-
-  \begin{equation*}
-    P(t_j | x_i) = \prod_{k = 1}^{K} Y_{ik}^{uno si es j, 0 otramente}
-  \end{equation*}
+       % Este resultado es lógico: la opción más verosímil es la que ya se ha observado.
 
 
 
+       }
+
+ \item Generalitzeu el resultat a un número arbitrari $K \geq 2$ de classes.
+
+       {\bfseries
+
+       Puesto que ahora tenemos más clases, será necesario un cambio en la notación.
+
+       Definimos $y_k(x)$ como la probabilidad de que el dato $x$ pertenezca a la clase $k$, i.e: $y_k(x) \equiv P(C_k | x)$.
+
+       Ahora $t_n \in \{1,2,\dots, K\}$, y por lo tanto definiremos la matriz
+
+       \begin{equation*}
+        T =
+        \kbordermatrix{ & C_1 & C_2 & \hdots & C_K \\
+         x_1 & t_{11} & t_{12} & \hdots & t_{1K} \\
+         x_2 & t_{21} & t_{22} & \hdots & t_{2K} \\
+         \vdots & \vdots & \vdots & \vdots & \vdots \\
+         x_N & t_{N1} & t_{N2} & \hdots & t_{Nk} } \qquad
+       \end{equation*}
+
+       Donde $t_{ij}$ es $1$ si $x_i \in C_k$ y es $0$ si $x_i \notin C_k$.
+
+       Para no confundir la notación, redefinimos la muestra de datos como $D = \{(x_1, z_1), (x_2, z_2), \dots, (x_N, z_N)\}$, donde $z_n \in \{1,2,\dots,K\}$
+
+       Ahora ya no tenemos un solo vector $w$, sino que tenemos uno por cada clase. Definimos entonces la matriz
+
+       \begin{equation*}
+        W = \kbordermatrix{ & w_0 & w_1 & \hdots & w_d \\
+         C_1 & w_{10} & w_{11} & \hdots & w_{1d} \\
+         C_2 & w_{20} & w_{21} & \hdots & w_{2d} \\
+         \vdots & \vdots & \vdots & \vdots & \vdots \\
+         C_K & w_{K0} & w_{K1} & \hdots & w_{Kd} } \qquad
+       \end{equation*}
+
+       Entonces el modelo que definimos es
+
+       \begin{equation*}
+           y_k(x) = g(W_kx)
+       \end{equation*}
+
+       Donde $W_k$ es la fila $k$ de la matriz $W$
+
+       Ahora podemos definir
+
+       \begin{equation*}
+        P(z|x) = y_z(x)
+       \end{equation*}
+
+       Que por mantener la notación del apartado anterior también se podría definir como
+
+       \begin{equation*}
+        P(z|x) = \prod_{k = 1}^{K} y_k(x)^{t_{iz}}
+       \end{equation*}
+    %    \footnote{He puesto una $z$ en vez de $t$ para no causar confusión con los elementos de la matriz $T$, pero el significado es el mismo que en el apartado anterior}
+
+       Entonces la probabilidad de haber observado los datos $D$ es
+
+       \begin{eqnarray*}
+           P(z_1|x_1)P(z_2|x_2)\dots P(z_N|x_N)
+           &=&
+           \prod_{i = 1}^{N} P(z_i|x_i) \\
+        %
+        &=&
+        \prod_{i = 1}^{N} y_{z_i}(x_i) \\
+        %
+        &=&
+        \prod_{i = 1}^{N} \prod_{k = 1}^{K} y_k(x_i)^{t_{iz_i}}
+       \end{eqnarray*}
+
+       Y la función log-verosimilitud se puede definir como
+
+       \begin{eqnarray*}
+           l(D; W) &=&
+           \sum_{i = 1}^{N}
+           \ln y_{z_i}(x_i) \\
+        %
+            &=&
+            \sum_{i = 1}^{N}
+            \ln g(W_{z_i}\cdot x_i)
+       \end{eqnarray*}
+
+       Entonces la función de error propuesta es
+
+       \begin{eqnarray*}
+           E(D;W) &=& -l(D;W) \\
+        %
+        &=& -\sum_{i = 1}^{N}
+        \ln g(W_{z_i}\cdot x_i)
+       \end{eqnarray*}
 
 
-  }
+       % Para simplificar la notación definimos la matriz
+       % \begin{equation*}
+       %   Y_{N \times K} =
+       %   \begin{bmatrix}
+       %     P(C_1 | x_1) & P(C_2 | x_1) & \dots & P(C_K | x_1) \\
+       %     P(C_1 | x_2) & P(C_2 | x_2) & \dots & P(C_K | x_2) \\
+       %     \vdots       & \vdots       & \ddots& \vdots       \\
+       %     P(C_1 | x_N) & P(C_2 | x_N) & \dots & P(C_K | x_N) \\
+       %   \end{bmatrix}
+       % \end{equation*}
+       %
+       % Esta matriz debe cumplir que
+       %
+       % \begin{equation*}
+       %   \forall i \in [1,N],  \sum_{j = 1}^{K} Y_{ij} = 1
+       % \end{equation*}
+       %
+       % Y entonces el modelo se puede definir como
+       %
+       % \begin{equation*}
+       %   P(t_j | x_i) = \prod_{k = 1}^{K} Y_{ik}^{uno si es j, 0 otramente}
+       % \end{equation*}
+
+
+
+
+
+       }
 \end{enumerate}
 
 \end{document}
