@@ -50,7 +50,7 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
         &=& \prod_{i = 1}^{N} y(x_i)^{t_i} (1 - y(x_i))^{1-t_i}
        \end{eqnarray*}
 
-       Puesto que se trata de un problema de clasificación, modelaremos $y(x)$ como $g(w^Tx + w_0)$, donde $g$ es la función logística, que se define como $g(z) = \frac{1}{1 + exp(-z)}$. Para simplificar la notación añadiremos a $x$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x) = g(w^Tx)$
+       Puesto que se trata de un problema de clasificación con dos clases, modelaremos $y(x)$ como $g(w^Tx + w_0)$, donde $g$ es la función logística, que se define como $g(z) = \frac{1}{1 + exp(-z)}$. Para simplificar la notación añadiremos a $x$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x) = g(w^Tx)$
 
        % En nuestro caso queremos modelar $y(x_i)$ como $w^Tx_i + w_0$. Para simplificar la notación añadiremos a $x_i$ el elemento $1$ al principio y juntaremos el vector $w$ con $w_0$ para definir nuestra función como $y(x_i) = w^Tx_i$
 
@@ -177,6 +177,15 @@ distribució de Bernoulli, la qual cosa permet d'obtenir una funció d'error amb
        \end{equation*}
 
        Donde $W_k$ es la fila $k$ de la matriz $W$
+
+       Puesto que ahora es un problema de clasificación con más de 2 clases la
+       función logística ya no sirve, pues podría ocurrir que la suma de probabilidades de pertenencia a cada una de las clases para un dato no sumara 1. Hay que usar su equivalente para más de 2 clases, que es la función "softmax", y que para este caso concreto se define como:
+
+       \begin{equation*}
+           g(W_kx) = \frac{exp(W_kx)}{\sum_{j = 1}^{K} exp(W_jx)}
+       \end{equation*}
+
+       De este modo se asegura que $\sum_{j = 1}^{K} g\big(y_j(x)\big) = 1$
 
        Ahora podemos definir
 
