@@ -1,6 +1,8 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
+\usepackage{amsmath}
+
 
 \author{Albert Ribes}
 \title{Problema 1}
@@ -18,36 +20,137 @@
   \begin{enumerate}
     \item Donar les probabilitats d'error $P_i(error)$ de les tres regles, $i = 1, 2, 3$
     {\bfseries
+
+    Sea $Q(C_i)$ la probabilidad de elegir la clase $C_i$. En todos los casos, la probabilidad de error es $P_{error} = Q(C_1)P(C_2) + Q(C_2)P(C_1)$
+
     \begin{itemize}
-      \item El error de la regla $R_1$ es $min(P(C_1), P(C_2))$
-      \item Sea $Q(C_i)$ la probabilidad de predecir la clase $C_i$. La probabilidad de error de la regla $R_2$ es $P(C_1) \wedge Q(C_2) + P(C_2) \wedge Q(C_1)$. Puesto que $P$ y $Q$ son probabilidades
-      independientes, se puede escribir como $P(C_1) \cdot Q(C_2) + P(C_2) \cdot Q(C_1)$. Pero $Q(C_i) = P(C_i)$, como indica la regla. Por lo tanto el error de la regla $R_2$ es $P(C_1) \cdot (1 - P(C_1)) + (1 - P(C_1)) \cdot P(C_1)$, que equivale a $2P(C_1) - 2P(C_1)^2$
-      \item Este es un caso particular de la regla $R_2$. Ahora el error es
-      $P(C_1) \cdot 0,5 + (1 - P(C_1)) \cdot 0,5 \equiv 0,5$
+        \item Para la regla $R_1$, si la clase más probable es $C_1$ la probabilidad de error será $P_{error} = 1 \times P(C_2) + 0 \times P(C_1) = P(C_2)$, y si la más probable es $C_2$ el error será $P_{error} = 0 \times P(C_2) + 1 \times P(C_1) = P(C_1)$. En cualquier caso, la probabilidad de error siempre será $P_{error} = min(P(C_1), P(C_2))$
+        \item Para la regla $R_2$ la probabilidad de error es
+        %  $P_{error} = P(C_1)P(C_2) + (1 - P(C_1))P(C_1) = P(C_1)(1 - P(C_1)) + (1 - P(C_1)P(C_1)) = 2P(C_1)(1 - P(C_1)) = 2P(C_1) - 2P(C_1)^2$
+            \begin{align*}
+                P_{error} & = P(C_1)P(C_2) & + & (1 - P(C_1))P(C_1) \\
+                & = P(C_1)(1 - P(C_1)) & + & (1 - P(C_1)P(C_1)) \\
+                & = 2P(C_1)(1 - P(C_1)) & \\
+                & = 2P(C_1) - 2P(C_1)^2 &
+            \end{align*}
+        \item Para la regla $R_3$ la probabilidad de error es
+            \begin{align*}
+                P_{error} &= 0.5P(C_2) + 0.5P(C_1) \\
+                &= 0.5(1 - P(C_1)) + 0.5P(C_1) \\
+                &= 0.5 - 0.5P(C_1) + 0.5P(C_1) \\
+                &= 0.5
+            \end{align*}
+
+
+
+
+
+
     \end{itemize}
 
+    % \hrulefill
+    %
+    % \begin{itemize}
+    %   \item El error de la regla $R_1$ es $min(P(C_1), P(C_2))$
+    %   \item Sea $Q(C_i)$ la probabilidad de predecir la clase $C_i$. La probabilidad de error de la regla $R_2$ es $P(C_1) \wedge Q(C_2) + P(C_2) \wedge Q(C_1)$. Puesto que $P$ y $Q$ son probabilidades
+    %   independientes, se puede escribir como $P(C_1) \cdot Q(C_2) + P(C_2) \cdot Q(C_1)$. Pero $Q(C_i) = P(C_i)$, como indica la regla. Por lo tanto el error de la regla $R_2$ es $P(C_1) \cdot (1 - P(C_1)) + (1 - P(C_1)) \cdot P(C_1)$, que equivale a $2P(C_1) - 2P(C_1)^2$
+    %   \item Este es un caso particular de la regla $R_2$. Ahora el error es
+    %   $P(C_1) \cdot 0,5 + (1 - P(C_1)) \cdot 0,5 \equiv 0,5$
+    % \end{itemize}
+    %
     }
     \item Demostrar que $P_1(error) \leq P_2(error) \leq P_3(error)$
 
     {\bfseries
 
-    Sin pérdida de generalidad asumiremos que $P(C_1) \geq \frac{1}{2}$. El caso
-    contrario es simétrico. Entonces para la primera parte de la demostración
-    hay que demostrar que
-    \begin{eqnarray*}
-    P(C_2)  \leq 2P(C_1) - 2P(C_1)^2  & \equiv\\
-    1 - P(C_1)  \leq 2P(C_1) - 2P(C_1)^2 & \equiv \\
-    2P(C_1)^2 - 3P(C_1) + 1  \leq 0  &
-    \end{eqnarray*}
 
-    Usaremos la fórmula de las ecuaciones de segundo grado para resolverlo:
+    Hay que demostrar que
 
-    \begin{eqnarray*}
-      P(C_1) = \frac{3 \pm \sqrt{9 - 4 \cdot 2 \cdot 1}}{2 \cdot 2} = \frac{3 \pm 1}{4}
-      \Rightarrow P(C_1) \notin (\frac{1}{2} , 1)
-    \end{eqnarray*}
+    \begin{align}
+        min(P(C_1), P(C_2)) &\leq 2P(C_1) - 2P(C_1)^2 \label{l1} \\
+        2P(C_1) - 2P(C_1)^2 &\leq 0.5 \label{l2}
+    \end{align}
 
-    Esto es claramente una contradicción. Habrá que ver qué nos está pasando
+    En el caso que $P(C_1) \leq P(C_2)$, la condición \ref{l1} se puede escribir como
+
+    \begin{align*}
+        P(C_1) &\leq 2P(C_1) - 2P(C_1)^2 \\
+        0 &\leq P(C_1) - 2P(C_1)^2 \\
+        2P(C_1)^2 &\leq P(C_1) \\
+        2P(C_1) &\leq 1 \\
+        P(C_1) &\leq \frac{1}{2} \\
+    \end{align*}
+
+    Y esto siempre es cierto, puesto que $P(C_1) + P(C_2) = 1$ y hemos establecido que $P(C_1) \leq P(C_2)$
+
+    En el caso que $P(C_1) > P(C_2)$, la condición \ref{l1} se puede escribir como
+
+    \begin{align*}
+        P(C_2) &\leq 2P(C_1) - 2P(C_1)^2 \\
+        1 - P(C_1) &\leq 2P(C_1) - 2P(C_1)^2 \\
+        2P(C_1)^2- 3P(C_1) +1 &\leq 0 \\
+    \end{align*}
+
+    La igualdad se cumple en los puntos
+
+    \begin{align*}
+        x = \frac
+        {3 \pm \sqrt{(-3)^2 - 4\cdot2}}
+        {2\cdot2}
+        = \frac
+        {3 \pm 1}
+        {4} \\
+        x \in \{\frac{1}{2}, 1\}
+    \end{align*}
+
+    Y como el elemento elevado al cuadrado es positivo, eso significa que:
+
+    \begin{align*}
+        P(C_1) \in [\frac{1}{2}, 1]
+    \end{align*}
+
+    Igual que antes, esto es cierto puesto que hemos asumido que $P(C_1) > P(C_2)$.
+
+    La condición \ref{l1} ya está demostrada. Para la condición \ref{l2}:
+
+    \begin{align*}
+        2P(C_1) - 2P(C_1)^2 &\leq 0.5 \\
+        0 &\leq 2P(C_1)^2 - 2P(C_1) + 0.5
+    \end{align*}
+
+    La igualdad se cumple en los puntos
+
+    \begin{align*}
+        x = \frac
+        {2 \pm \sqrt{(-2)^2 - 4\cdot2\cdot0.5}}
+        {2\cdot2}
+        = \frac
+        {2 \pm 0}
+        {4} \\
+        x =  \frac{1}{2}
+    \end{align*}
+
+    Y como el elemento elevado al cuadrado es positivo, la inecuación siempre es cierta.
+
+    Quedan demostradas las dos condiciones
+
+    % Sin pérdida de generalidad asumiremos que $P(C_1) \geq \frac{1}{2}$. El caso
+    % contrario es simétrico. Entonces para la primera parte de la demostración
+    % hay que demostrar que
+    % \begin{eqnarray*}
+    % P(C_2)  \leq 2P(C_1) - 2P(C_1)^2  & \equiv\\
+    % 1 - P(C_1)  \leq 2P(C_1) - 2P(C_1)^2 & \equiv \\
+    % 2P(C_1)^2 - 3P(C_1) + 1  \leq 0  &
+    % \end{eqnarray*}
+    %
+    % Usaremos la fórmula de las ecuaciones de segundo grado para resolverlo:
+    %
+    % \begin{eqnarray*}
+    %   P(C_1) = \frac{3 \pm \sqrt{9 - 4 \cdot 2 \cdot 1}}{2 \cdot 2} = \frac{3 \pm 1}{4}
+    %   \Rightarrow P(C_1) \notin (\frac{1}{2} , 1)
+    % \end{eqnarray*}
+    %
+    % Esto es claramente una contradicción. Habrá que ver qué nos está pasando
 
 
 
