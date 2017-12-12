@@ -1,0 +1,550 @@
+APA: Aprenentatge Automàtic (TEMA 7)
+Grau en Enginyeria Informàtica - UPC (2017/18)
+Lluís A. Belanche,
+
+belanche@cs.upc.edu
+
+Entrega: 8 Gener 2018
+
+Els problemes marcats
+
+Objectius
+
+[G]
+
+són de grup; els problemes/apartats marcats
+
+[R]
+
+són per fer-se en
+
+R
+
+:
+
+1. Conéixer l'arquitectura MLP de xarxes neuronals i saber-la ajustar a diferents tipus de problemes
+2. Conéixer les funcions d'error més adequades segons el tipus de tasca
+
+Problema 1
+
+El problema d'aprenentatge contradictori 1 [R,G]
+
+B = {0, 1}. Suposem que tenim un conjunt d'exemples (INPUTS) d'entrada xn ∈ B10 que apareixen
+cn cops (1 ≤ n ≤ 4) en una mostra de training de mida N = 52. Tenim també les corresponents sortides
+7
+conegudes (TARGETS) tn ∈ B :
+Sigui
+
+x1
+x2
+x3
+x4
+
+INPUTS
+
+cn
+
+TARGETS
+
+1010011010
+
+16
+
+1,2,3,4,3,2,1
+
+1101011101
+
+17
+
+2,4,2,1,2,4,2
+
+0010100101
+
+14
+
+2,5,3,2,1,1,0
+
+0101010101
+
+5
+
+2,5,3,2,1,1,0
+
+Els TARGETS expressen els nombre de '1' a cada posició (de la 1 a la 7) dels corresponents
+INPUTS. Pel vector
+
+x4
+
+cn
+
+pot haver més d'un '1' a la sortida; pels altres, hi ha exactament un '1' a la
+
+sortida (comproveu les sumes). Noteu que, a causa de les contradiccions, l'error en el conjunt de training
+mai pot ser zero.
+1. Doneu una interpretació a l'existència de les contradiccions a la mostra de dades
+2. Volem resoldre el problema amb una xarxa neuronal MLP. Quantes neurones hi ha d'haver a la
+capa de sortida, quina funció d'error hauríem d'usar i quina funció d'activació?
+3. Un cop correctament entrenada la xarxa, quin comportament podem esperar que mostri? En altres
+paraules, quina seria la sortida lògica per cadascun dels
+4. Entreneu una xarxa MLP amb la rutina
+
+nnet{nnet}
+
+xn ?
+
+i reporteu els resultats obtinguts.
+
+5. Calculeu l'error mínim possible (teòric) en les dades donades i compareu-lo amb l'error empíric
+obtingut.
+
+.........
+
+TEMA 7
+
+APA: Aprenentatge Automàtic
+
+Problema 2
+
+El problema de la paritat [R,G]
+
+El problema de la paritat és una generalització de la XOR a
+
+d
+
+entrades binàries. La sortida ha de ser 1
+
+si el número d'entrades a 1 és imparell i 0 si aquest número és parell.
+1. Per què aquesta funció pot ser molt complexe d'aprendre?
+
+(no val dir simplement que no és
+
+separable linealment).
+2. Construiu un escenari d'aprenentatge general per una
+
+d xa, usant una xarxa MLP. Heu de decidir
+
+el tipus de tasca i la funció d'error. Imagineu que un petit percentatge (posem el 5%) de les sortides
+vénen amb la paritat erròniament calculada.
+
+nnet{nnet} per aprendre la tasca, en el cas de
+d = 10. Heu de fer tres estudis separats, prenent conjunts d'aprenentatge de mida creixent: 200,
+500 i 1000. Caldrà que estimeu la millor arquitectura, cosa que podeu fer per cross-validation,
+
+3. Entreneu una xarxa neuronal MLP amb la rutina
+
+usant regularització.
+4. Reporteu els resultats de predicció dels tres estudis en un conjunt de test de mida
+
+104 .
+
+Què
+
+observeu?
+
+.........
+
+Problema 3
+
+El problema d'aprenentatge contradictori 2
+
+Suposem que entrenem una xarxa MLP fent servir un únic exemple, que es repeteix 100 cops a la mostra
+de dades. La xarxa té una sola neurona de sortida, amb activació identitat. L'entrenament es fa de la
+següent manera: 80 de les vegades se li subministra un '1' a la sortida i les altres 20 un '0', ns que
+l'error quadràtic total és mínim.
+1. Doneu una interpretació a l'existència de les contradiccions a la mostra de dades
+2. Quina serà la sortida de la xarxa quan li presentem l'exemple, un cop acabat l'entrenament?
+3. Quin és l'error mínim assolible (teòric)?
+
+.........
+
+Problema 4
+
+Anàlisi de resultats amb la xarxa MLP
+
+Un alumne ha estat jugant amb una xarxa MLP entrenada amb la rutina
+
+nnet{nnet}.
+
+Es tracta d'un
+
+problema de regressió bidimensional d'una sola sortida. Utilitzant exactament la mateixa crida a
+
+nnet
+
+tres vegades, tenim els següents resultats:
+
+# weights: 21
+initial value 143.78535
+iter 10 value 82.67353
+iter 20 value 7.343014
+iter 30 value 3.130778
+iter 40 value 2.817692
+iter 50 value 2.803824
+iter 60 value 2.781383
+iter 70 value 2.743949
+iter 80 value 2.310192
+iter 90 value 0.148647
+iter 100 value 0.031570
+iter 110 value 0.018951
+...... <skipped>
+iter 860 value 0.000156
+iter 870 value 0.000155
+iter 880 value 0.000151
+
+# weights: 21
+initial value 147.09410
+iter 10 value 70.01521
+iter 20 value 34.64103
+iter 30 value 21.04111
+iter 40 value 6.781165
+iter 50 value 1.729377
+iter 60 value 1.051125
+iter 70 value 0.725090
+iter 80 value 0.318526
+iter 90 value 0.136883
+iter 100 value 0.116817
+iter 110 value 0.111052
+...... <skipped>
+iter1940 value 0.001235
+iter1950 value 0.001235
+iter1960 value 0.001230
+
+# weights: 21
+initial value 140.510964
+iter 10 value 87.626321
+iter 20 value 33.779907
+iter 30 value 7.576811
+iter 40 value 7.027161
+...... <skipped>
+iter 100 value 6.448934
+iter 110 value 6.448800
+iter 120 value 6.448505
+final value 6.446125
+converged
+
+2
+
+TEMA 7
+
+APA: Aprenentatge Automàtic
+
+iter 890 value 0.000145
+iter 900 value 0.000087
+final value 0.000087
+converged
+
+iter1970 value 0.001225
+iter1980 value 0.001212
+iter1990 value 0.001206
+iter2000 value 0.001198
+final value 0.001198
+stopped after 2000 iterations
+
+1. Comenteu completament tots aquests resultats.
+
+mateixa crida a
+
+nnet?
+
+Per què tenim resultats diferents si hem fet la
+
+2. Quin és el nombre de neurones ocultes a la xarxa?
+3. Raonar si és possible triar una d'aquestes xarxes com millor en funció dels resultats que veiem.
+En cas armatiu, expliqueu com; en cas negatiu, expliqueu com es faria.
+
+.........
+
+Problema 5
+
+Pràctica amb la xarxa MLP 1 [R]
+
+Aquesta és una tasca usada com a benchmark en la literatura. Denim
+
+f : [−1, 1]2 → R
+
+com:
+
+f (x1 , x2 ) = 4 sin(πx1 ) + 2 cos(πx2 ) + 
+on
+
+ ∼ N (0, 0.52 )
+
+és soroll normal amb mitjana zero i desviació estàndar
+
+1. Entreneu una xarxa neuronal MLP amb la rutina
+
+nnet{nnet}
+
+per aprendre la tasca. Heu de fer 4
+
+estudis separats, prenent conjunts d'aprenentatge de mida creixent:
+
+[−1, 1]2 .
+
+de manera aleatòria uniformement en
+
+0.5.
+
+100, 200, 500 i 1000, mostrejats
+
+Caldrà que estimeu la millor arquitectura, cosa que
+
+podeu fer per cross-validation, usant regularització.
+2. Reporteu els resultats de predicció dels 4 estudis en un conjunt de test de mida
+crear exemples a intervals regulars en
+
+1024
+
+obtingut de
+
+[−1, 1]2 .
+
+3. Repetiu els experiments usant regressió lineal amb i sense regularització en els mateixos conjunts
+de dades i compareu els resultats obtinguts amb els de la xarxa MLP; noteu que podeu usar
+simplement la rutina
+
+nnet
+
+amb
+
+size=0.
+
+.........
+
+Problema 6
+
+Pràctica amb la xarxa MLP 2 [R]
+
+Aquesta és també una tasca usada com a benchmark en la literatura. Denim
+
+
+g(x) =
+i fem
+
+f (x) = g(x) + ,
+
+on
+
+ ∼ N (0, 0.12 )
+
+sin(x)/x
+1
+
+si
+si
+
+g:R→R
+
+com
+
+x 6= 0
+x=0
+
+és soroll normal amb mitjana zero i desviació estàndar
+
+0.1.
+
+1. Entreneu una xarxa neuronal MLP per aprendre la tasca. Heu de fer 3 estudis separats, prenent
+conjunts d'aprenentatge de mida creixent:
+mement
+
+1 en
+
+[−20, 20].
+
+100, 200
+
+i
+
+500,
+
+mostrejats de manera aleatòria unifor-
+
+Caldrà que estimeu la millor arquitectura, així com els paràmetres de la
+
+xarxa, cosa que podeu fer per cross-validation, usant (o no) regularització.
+2. Reporteu els resultats de predicció dels 5 estudis en un conjunt de test de mida
+crear exemples a intervals regulars en
+
+1000
+
+obtingut de
+
+[−20, 20].
+
+1 Noteu
+
+que la funció està ben denida, donat que lim+ sin(x)/x = 1 = lim− sin(x)/x i per tant la funció g és contínua
+x→0
+x→0
+a tot arreu.
+
+3
+
+TEMA 7
+
+APA: Aprenentatge Automàtic
+
+3. Repetiu els experiments usant regressió lineal amb i sense regularització en els mateixos conjunts
+de dades i compareu els resultats obtinguts amb els de la xarxa MLP; noteu que podeu usar
+simplement la rutina
+
+nnet
+
+amb
+
+size=0.
+
+.........
+
+Problema 7
+
+Reconeixement de lletres amb la xarxa MLP [R,G]
+
+Prenem les lletres A, B, C, ..., Z codicades digitalment en una quadrícula de 7 x 5. Per exemple, A es
+codica com:
+
+0
+1
+1
+1
+1
+1
+1
+L'arxiu
+
+letters.txt
+
+1
+0
+0
+1
+0
+0
+0
+
+1
+0
+0
+1
+0
+0
+0
+
+1
+0
+0
+1
+0
+0
+0
+
+0
+1
+1
+1
+1
+1
+1
+
+conté codicacions de 26 lletres, cadascuna representada com un vector de
+
+longitud 35. La tasca és dissenyar una xarxa neuronal que classiqui imatges (possiblement corruptes)
+com a lletres de l'alfabet.
+1. Dissenyeu una funció que generi versions corruptes d'una lletra, a còpia de canviar un cert número
+de bits de manera aleatòria. Una manera senzilla és generar primer el número de bits corruptes p.e.
+amb una Poisson (λ
+
+= 1.01)
+
+seleccionar els bits concrets (uniformement) i després invertir-los.
+
+2. Dissenyeu una funció que, partint de les lletres netes (arxiu
+corruptes que usarem com a mostra de training, de mida
+
+letters.txt),
+
+generi unes dades
+
+N.
+
+3. Entreneu una xarxa MLP per aprendre la tasca. Caldrà que estimeu la millor arquitectura, cosa
+que podeu fer per cross-validation, usant regularització.
+4. Reporteu els resultats de predicció en una mostra de test gran també generada per vosaltres, i de
+manera anàloga a la de training.
+
+.........
+
+Problema 8
+
+Permeabilitat de roques amb la xarxa MLP [R]
+
+Es disposa de 48 mesures de roques d'un dipòsit de petroli. L'objectiu és modelar la permeabilitat en
+funció de l'àrea, el perímetre i la forma. En primer lloc transformem les dades per ajudar a l'ajust del
+model:
+
+library(datasets)
+data(rock)
+?rock
+rock.x <- data.frame(area = scale(rock$area), perim = scale(rock$peri),
+shape = scale(rock$shape))
+rock.y <- log(rock$perm)
+Entreneu una xarxa MLP per aprendre la tasca. Donat el baix número d'exemples, useu leave-one-
+
+out cross-validation i regularització per trobar la millor xarxa. Per avaluar el model, feu una gràca de
+resposta predita vs. observada i guieu-vos per l'error quadràtic predictiu.
+
+.........
+
+4
+
+TEMA 7
+
+APA: Aprenentatge Automàtic
+
+Problema 9
+
+Pràctica amb la xarxa MLP 3 [R, G?]
+
+Aquesta tasca és la identicació d'un sistema no lineal continu SISO (single-input/single-output ), a partir
+d'un número de punts obtinguts mostrejant consecutivament la dinàmica
+
+u → y.
+
+Denim:
+
+y(k) = y1 (k − 1) + y2 (k − 1)
+on
+
+
+
+2
+2
+y1 (k) = 2.5y(k) sin πe−u (k)−y (k)
+y2 (k) = u(k)(1 + u2 (k))
+
+(1)
+
+y(k) depén de l'entrada anterior u(k−1) i de la sortida anterior y(k−1). Entreneu una
+N = 500 construit posant
+excitant aleatòriament el sistema usant un senyal u(k) mostrejat uniformement en [−2, 2].
+
+Així, la sortida
+
+xarxa MLP per aprendre la tasca. Preneu un conjunt d'aprenentatge de mida
+
+y(0) = 0
+
+i
+
+Caldrà que estimeu la millor arquitectura, cosa que podeu fer per cross-validation, usant regularització.
+
+Nota
+
+: aquest problema es pot fer tant en modalitat individual com grupal.
+
+.........
+
+5
+
+

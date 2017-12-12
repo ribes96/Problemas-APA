@@ -1,0 +1,52 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\author{Albert Ribes}
+\title{\textbf{5. Pràctica amb la xarxa MLP 1 [R]}}
+
+\begin{document}
+    \maketitle
+
+    Aquesta és una tasca usada com a benchmark en la literatura. Definim
+    $f:
+    [-1, 1]^2
+    \longmapsto
+    \mathbb{R} $
+    com:
+    $f(x_1, x_2) =
+    4\sin(\pi x_1) +
+    2\cos(\pi x_2 ) +
+    \epsilon$
+    on
+    $\epsilon \sim \mathcal{N}(0, 0.5^2)$
+    és soroll normal amb mitjana zero i desviació estàndar
+    $1$.
+
+    \begin{enumerate}
+
+        \item Entreneu una xarxa neuronal MLP amb la rutina
+        \texttt{nnet\{nnet\}}
+        per aprendre la tasca. Heu de fer $4$
+        estudis separats, prenent conjunts d'aprenentatge de mida creixent:
+            $100$, $200$, $500$ i $1000$, mostrejats
+        de manera aleatòria uniformement en
+        $[-1, 1]^2$ .
+        Caldrà que estimeu la millor arquitectura, cosa que
+        podeu fer per \textit{cross-validation}, usant regularització.
+        \item Reporteu els resultats de predicció dels 4 estudis en un conjunt de test de mida $1024$
+        obtingut de
+        crear exemples a intervals regulars en
+        $[-1, 1]^2$.
+
+        \item Repetiu els experiments usant regressió lineal amb i sense regularització en els mateixos conjunts
+        de dades i compareu els resultats obtinguts amb els de la xarxa MLP; noteu que podeu usar
+        simplement la rutina
+        \texttt{nnet}
+        amb
+        \texttt{size=0}.
+    \end{enumerate}
+
+\end{document}
