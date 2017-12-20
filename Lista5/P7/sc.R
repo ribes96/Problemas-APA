@@ -1,5 +1,5 @@
 library(nnet)
-
+library(caret)
 
 mydata = read.table("letters.txt")
 
@@ -26,11 +26,30 @@ generate_corrupt = function(df, n) {
     new_data[i,36] = as.character(df[elem, 36])
   }
   colnames(new_data) = nm
+  new_data$letter = as.factor(new_data$letter)
   return(new_data)
 }
 
-let_data = generate_corrupt(mydata, 50)
+train_data = generate_corrupt(mydata, 1000)
+test_data = generate_corrupt(mydata, 300)
+
+trc <- trainControl (method="repeatedcv", number=10, repeats=5)
+## WARNING: this takes maaaaaany minutes
+caret.nnet.model <- train (
+  letter ~.,
+  data = train_data,
+  method='nnet',
+  metric = "Accuracy",
+  trControl=trc)
+
+test_results = predict(caret.nnet.model, test_data)
+
+confusionMatrix(test_data$letter, test_results)
 
 
-# Hay que hacer algo con la variable de respuesta: debería ser factor, o algo parecido
-model.nnew = nnet(letter ~ ., data = let_data, size = 10, maxit = 500, linout = FALSE, softmax = TRUE)
+
+#Not useful
+
+model.nnew = nnet(letter ~ ., data = let_data, size = 10, maxit = 500)
+
+results = predict(model.nnew, newdata = let_data, type = "class")
