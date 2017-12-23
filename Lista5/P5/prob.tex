@@ -3,6 +3,19 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+
+
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{DarkGreen},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{blue},
+    commentstyle=\color{DarkGreen},
+}
 
 \author{Albert Ribes}
 \title{\textbf{5. Pràctica amb la xarxa MLP 1 [R]}}
@@ -36,10 +49,45 @@
         $[-1, 1]^2$ .
         Caldrà que estimeu la millor arquitectura, cosa que
         podeu fer per \textit{cross-validation}, usant regularització.
+
+        \begin{lstlisting}
+        trc <- trainControl (
+            method="repeatedcv",
+            number=10,
+            repeats=5)
+        model1 <- train (
+            target ~.,
+            data = df1,
+            linout = TRUE,
+            method='nnet',
+            metric = "RMSE",
+            trControl=trc)
+        \end{lstlisting}
+
+        {\bfseries
+        Se han generado 4 dataframes con distintos tamaños (\texttt{df1, df2, df3, df4}) y se ha usado \texttt{caret} para encontrar la arquitectura más adecuada para cada uno de ellos. Haciendo $5$ veces 10-fold-cross-validation se han generado 4 modelos distintos, uno para cada dataset de \textit{training}
+        }
+
         \item Reporteu els resultats de predicció dels 4 estudis en un conjunt de test de mida $1024$
         obtingut de
         crear exemples a intervals regulars en
         $[-1, 1]^2$.
+
+        \begin{table}[!htbp] \centering
+  \caption{Resultados de testing}
+  \label{}
+\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+ & RMSE & Rsquared & MAE & size & decay \\
+\hline \\[-1.8ex]
+model1 & 0.403850910943991 & 0.985033338996773 & 0.317626232228504 & 9 & 0.1 \\
+model2 & 0.281937902973326 & 0.992197331725038 & 0.227103601567067 & 10 & 0.1 \\
+model3 & 0.273151994004781 & 0.992603513898941 & 0.216876595191761 & 8 & 0.1 \\
+model4 & 0.3040618541533 & 0.990810885868111 & 0.240931949631532 & 9 & 0.1 \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
 
         \item Repetiu els experiments usant regressió lineal amb i sense regularització en els mateixos conjunts
         de dades i compareu els resultats obtinguts amb els de la xarxa MLP; noteu que podeu usar
