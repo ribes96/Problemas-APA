@@ -1,6 +1,7 @@
 library(MASS)
 library(nnet)
 library(caret)
+library(stargazer)
 
 f = function(x) {
   return(4*sin(pi*x[1]) + 2*cos(pi*x[2]) + rnorm(1,0,0.5**2))
@@ -43,69 +44,105 @@ gendata = function() {
 
 gendata()
 
-
-#N = nrow(df1)
-
-#learn <- sample(1:N, round(2*N/3))
-
 trc <- trainControl (method="repeatedcv", number=10, repeats=5)
-nnetGrid <-  expand.grid(size = seq(from = 1, to = 10, by = 1),
-                         decay = seq(from = 0.1, to = 0.5, by = 0.1))
-model1 <- train (
+
+model1.nnet <- train (
   target ~.,
   data = df1,
   linout = TRUE,
   method='nnet',
   metric = "RMSE",
-  tuneGrid = nnetGrid,
   trControl=trc)
 
-model2 <- train (
+model2.nnet <- train (
   target ~.,
   data = df2,
   linout = TRUE,
   method='nnet',
   metric = "RMSE",
-  tuneGrid = nnetGrid,
   trControl=trc)
-model3 <- train (
+
+model3.nnet <- train (
   target ~.,
   data = df3,
   linout = TRUE,
   method='nnet',
   metric = "RMSE",
-  tuneGrid = nnetGrid,
   trControl=trc)
 
-model4 <- train (
+model4.nnet <- train (
   target ~.,
   data = df4,
   linout = TRUE,
   method='nnet',
   metric = "RMSE",
-  tuneGrid = nnetGrid,
   trControl=trc)
 
-p1 = predict(model1, test)
-p2 = predict(model2, test)
-p3 = predict(model3, test)
-p4 = predict(model4, test)
+model1.linear = train (
+  target ~.,
+  data = df1,
+  method='lm',
+  metric = "RMSE",
+  trControl=trc)
 
-r1 = postResample(p1, test$target)
-r2 = postResample(p2, test$target)
-r3 = postResample(p3, test$target)
-r4 = postResample(p4, test$target)
+model2.linear = train (
+  target ~.,
+  data = df2,
+  method='lm',
+  metric = "RMSE",
+  trControl=trc)
 
-r1 = c(r1, model1$bestTune)
-r2 = c(r2, model2$bestTune)
-r3 = c(r3, model3$bestTune)
-r4 = c(r4, model4$bestTune)
+model3.linear = train (
+  target ~.,
+  data = df3,
+  method='lm',
+  metric = "RMSE",
+  trControl=trc)
 
-r = rbind(r1,r2,r3,r4)
+model4.linear = train (
+  target ~.,
+  data = df4,
+  method='lm',
+  metric = "RMSE",
+  trControl=trc)
 
-#model.nnet = nnet(target ~ . , data = df1, linout = TRUE, subset = learn, size = 5, maxit = 500)
-#p1 = predict(model.nnet, df1, type = "raw")
-t1 = table(p1, df1$target)
 
-error_rate.learn <- 100*(1-sum(diag(t1))/nlearn)
-error_rate.learn
+
+
+
+p1.nnet = predict(model1.nnet, test)
+p2.nnet = predict(model2.nnet, test)
+p3.nnet = predict(model3.nnet, test)
+p4.nnet = predict(model4.nnet, test)
+
+p1.linear = predict(model1.linear, test)
+p2.linear = predict(model2.linear, test)
+p3.linear = predict(model3.linear, test)
+p4.linear = predict(model4.linear, test)
+
+
+
+r1.nnet = postResample(p1.nnet, test$target)
+r2.nnet = postResample(p2.nnet, test$target)
+r3.nnet = postResample(p3.nnet, test$target)
+r4.nnet = postResample(p4.nnet, test$target)
+
+r1.linear = postResample(p1.linear, test$target)
+r2.linear = postResample(p2.linear, test$target)
+r3.linear = postResample(p3.linear, test$target)
+r4.linear = postResample(p4.linear, test$target)
+
+
+
+r = rbind(
+  r1.nnet,
+  r2.nnet,
+  r3.nnet,
+  r4.nnet,
+  r1.linear,
+  r2.linear,
+  r3.linear,
+  r4.linear
+  )
+
+stargazer(r)

@@ -73,18 +73,56 @@
         crear exemples a intervals regulars en
         $[-1, 1]^2$.
 
-        \begin{table}[!htbp] \centering
+        {\bfseries
+        Los resultados están en la tabla \ref{res}.
+
+        Es muy curioso que no parece haber mejoría a medida que se incrementa el tamaño de los datos de training. De hecho, los resultados parecen oscilar. Esto puede deberse al factor de azar que hay en la construcción de las redes.
+
+        El proceso de cross-validation ha resultado en las arquitecturas de la tabla \ref{net_data}
+
+
+
+        }
+
+
+
+\begin{table}[!htbp] \centering
   \caption{Resultados de testing}
-  \label{}
-\begin{tabular}{@{\extracolsep{5pt}} cccccc}
+  \label{res}
+\begin{tabular}{@{\extracolsep{5pt}} cccc}
 \\[-1.8ex]\hline
 \hline \\[-1.8ex]
- & RMSE & Rsquared & MAE & size & decay \\
+ & RMSE & Rsquared & MAE \\
 \hline \\[-1.8ex]
-model1 & 0.403850910943991 & 0.985033338996773 & 0.317626232228504 & 9 & 0.1 \\
-model2 & 0.281937902973326 & 0.992197331725038 & 0.227103601567067 & 10 & 0.1 \\
-model3 & 0.273151994004781 & 0.992603513898941 & 0.216876595191761 & 8 & 0.1 \\
-model4 & 0.3040618541533 & 0.990810885868111 & 0.240931949631532 & 9 & 0.1 \\
+r1.nnet & $0.268$ & $0.993$ & $0.214$ \\
+r2.nnet & $0.552$ & $0.970$ & $0.428$ \\
+r3.nnet & $0.263$ & $0.993$ & $0.211$ \\
+r4.nnet & $1.444$ & $0.797$ & $1.278$ \\
+\hline
+r1.linear & $2.366$ & $0.491$ & $1.928$ \\
+r2.linear & $2.306$ & $0.489$ & $1.885$ \\
+r3.linear & $2.300$ & $0.492$ & $1.883$ \\
+r4.linear & $2.284$ & $0.492$ & $1.875$ \\
+% r1.linear.not.regularized & $2.366$ & $0.491$ & $1.928$ \\
+% r2.linear.not.regularized & $2.306$ & $0.489$ & $1.885$ \\
+% r3.linear.not.regularized & $2.300$ & $0.492$ & $1.883$ \\
+% r4.linear.not.regularized & $2.284$ & $0.492$ & $1.875$ \\
+\hline \\[-1.8ex]
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp] \centering
+\caption{Arquitectura de las redes}
+\label{net_data}
+\begin{tabular}{@{\extracolsep{5pt}} ccc}
+\\[-1.8ex]\hline
+\hline \\[-1.8ex]
+& size & decay \\
+\hline \\[-1.8ex]
+model1.nnet & $5$ & $0$ \\
+model2.nnet & $5$ & $0.100$ \\
+model3.nnet & $5$ & $0.100$ \\
+model4.nnet & $5$ & $0.0001$ \\
 \hline \\[-1.8ex]
 \end{tabular}
 \end{table}
@@ -95,6 +133,18 @@ model4 & 0.3040618541533 & 0.990810885868111 & 0.240931949631532 & 9 & 0.1 \\
         \texttt{nnet}
         amb
         \texttt{size=0}.
+
+        {\bfseries
+
+        Los resultados están en la tabla \ref{res}.
+
+        En el caso de modelos lineales con regularización sí que se mejoran a medida que los datos de training se incrementan. Con esto se ve que los modelos lineales son más estables que las redes neuronales.
+
+        De todos modos, las redes neuronales siempre tienen unos resultados mejores que los modelos lineales. Esto puede ser un indicador de que el modelo lineal no tiene suficiente potencia para representar estos datos. De hecho, los modelos que se han creado no generan nuevos datos de entrada, y no tiene suficiente flecibilidad para representar las funciones de seno y coseno.
+
+
+        No he sido capaz de hacer un modelo lineal con R que no regularice.
+        }
     \end{enumerate}
 
 \end{document}
